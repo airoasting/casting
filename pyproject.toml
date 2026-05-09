@@ -24,6 +24,10 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+markers = [
+    "slow: integration tests that call Claude API",
+    "network: tests that hit the live 5color/slide_library sites",
+]
 
 [tool.ruff]
 line-length = 100

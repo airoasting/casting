@@ -19,5 +19,5 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ### Privacy
 
-- Content (xxxxx input, BLACK output, RGSB comments) never transmitted.
+- Content (user input prompt, BLACK output, RGSB comments) never transmitted.
 - Telemetry default = OFF; opt-in via `~/.claude/roasting/config.json`.

@@ -13,7 +13,7 @@
 
 ## Privacy
 
-Anonymous metadata only (case ID, score, round count). Content (xxxxx input, BLACK output, RGSB comments) is **never** transmitted.
+Anonymous metadata only (case ID, score, round count). Content (your input prompt, BLACK output, RGSB comments) is **never** transmitted.
 
 ## License
 

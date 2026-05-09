@@ -1,5 +1,6 @@
 PYTHON := .venv/bin/python
 PYTEST := .venv/bin/pytest
+VERSION := $(shell jq -r .version .claude-plugin/plugin.json)
 
 .PHONY: help sync-cases sync-slides test test-routing test-anti-patterns test-quality lint typecheck package publish clean
 
@@ -42,17 +43,17 @@ lint:
 	.venv/bin/ruff check .
 
 typecheck:
-	.venv/bin/mypy scripts/ skills/
+	.venv/bin/mypy scripts/
 
 package:
 	mkdir -p dist/
-	zip -r dist/roasting-$$(jq -r .version .claude-plugin/plugin.json).zip \
-		.claude-plugin/ skills/ scripts/ docs/ README.md README.ko.md LICENSE CHANGELOG.md
+	zip -r dist/roasting-$(VERSION).zip \
+		.claude-plugin/ skills/ scripts/ README.md README.ko.md LICENSE CHANGELOG.md
 
 publish:
-	gh release create v$$(jq -r .version .claude-plugin/plugin.json) \
-		dist/roasting-*.zip \
-		--title "v$$(jq -r .version .claude-plugin/plugin.json)" \
+	gh release create v$(VERSION) \
+		dist/roasting-$(VERSION).zip \
+		--title "v$(VERSION)" \
 		--notes-file CHANGELOG.md
 
 clean:

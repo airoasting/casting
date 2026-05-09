@@ -19,7 +19,7 @@ Thumbs.db
 
 # Claude Code workspace (runtime artifacts, never committed)
 _workspace/
-~/.claude/roasting/
+# Note: ~/.claude/roasting/ lives outside the repo (user's home dir) and is not subject to .gitignore matching.
 
 # Secrets
 .env
