@@ -1,0 +1,22 @@
+{
+  "name": "roasting",
+  "version": "0.1.0",
+  "description": "5-Color Harness execution engine for Korean business leaders. Auto-routes 63 white-collar artifact cases (email, board memo, investor letter, etc.) and produces output via BLACK Producer + RGSB Reviewer team with debate-driven scoring. Korean only.",
+  "author": {
+    "name": "AI ROASTING",
+    "url": "https://airoasting.github.io"
+  },
+  "homepage": "https://airoasting.github.io/roasting",
+  "repository": "https://github.com/airoasting/roasting",
+  "license": "MIT",
+  "keywords": [
+    "5-color-harness",
+    "korean",
+    "executive",
+    "white-collar",
+    "agent-teams",
+    "producer-reviewer",
+    "claude-code-plugin",
+    "open-beta"
+  ]
+}

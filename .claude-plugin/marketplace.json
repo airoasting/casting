@@ -1,0 +1,15 @@
+{
+  "name": "airoasting",
+  "owner": {
+    "name": "AI ROASTING",
+    "url": "https://airoasting.github.io"
+  },
+  "plugins": [
+    {
+      "name": "roasting",
+      "source": "./",
+      "version": "0.1.0",
+      "description": "5-Color Harness execution engine for Korean business leaders."
+    }
+  ]
+}

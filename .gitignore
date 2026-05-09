@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Build
+dist/
+*.zip
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code workspace (runtime artifacts, never committed)
+_workspace/
+~/.claude/roasting/
+
+# Secrets
+.env
+.env.local
+config.local.json
