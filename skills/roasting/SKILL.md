@@ -116,9 +116,54 @@ Inputs:
 
 `anti-patterns.json` 저장: `{detected_iterations: [[...], [...]], final: []}`
 
-### Phase 5 — RGSB REVIEW (Agent Teams)
+### Phase 5 — RGSB REVIEW (Sub-Agent Fallback Path)
 
-> **구현은 PR 9 (sub-agent fallback) → PR 10 (Agent Teams)에서 채움.** stub.
+> v0.1에는 두 경로가 있다: **Sub-Agent Fallback (이 절)** + **Agent Teams (PR 10에서 추가)**. Agent Teams 가용 여부를 자동 탐지해 우선 시도, 실패 시 이 경로로 폴백.
+
+목적: BLACK 산출물을 RED·SILVER·BLUE·GOLD 4인이 *병렬* 채점, 평균 ≥ 9.5 게이트.
+
+처리 (Sub-Agent 모드):
+
+1. **병렬 dispatch (4명 동시):**
+   ```
+   for reviewer in [RED, SILVER, BLUE, GOLD]:
+       Agent(
+         subagent_type="general-purpose",
+         description=f"{reviewer} score for {case_id} round {n}",
+         prompt=f"""
+   You are following agents/roasting-{reviewer.lower()}.md.
+   Use case persona from references/cases/{case_id}.md ({reviewer} section).
+   
+   Score this BLACK output 1-10:
+   {black_draft}
+   
+   Return JSON only:
+   {{"score": <number>, "reason": "<1줄>", "suggestion": "<1줄>"}}
+   """,
+         run_in_background=True,
+       )
+   ```
+
+2. **결과 수집** (4 sub-agents 모두 완료 대기). `rgsb-scores.json` 저장:
+   ```json
+   {
+     "RED": {"score": 9.4, "reason": "...", "suggestion": "..."},
+     "SILVER": {"score": 8.7, "reason": "...", "suggestion": "..."},
+     "BLUE": {"score": 9.1, "reason": "...", "suggestion": "..."},
+     "GOLD": {"score": 7.8, "reason": "...", "suggestion": "..."}
+   }
+   ```
+
+3. **σ 계산 + 토론 트리거** (sub-agent 모드는 토론 SKIP):
+   - σ < 0.5: 평균 사용.
+   - σ ≥ 0.5: **sub-agent 모드는 토론 불가**. 사용자에게 알림: "분포 σ={σ:.2f} — 합의 약함. Agent Teams 모드에서 더 정확합니다."
+     - 분포 그대로 출력에 표시.
+
+4. **게이트:**
+   - 평균 ≥ 9.5 → Phase 7.
+   - 미만 → Phase 6 (round_count +1).
+
+> Agent Teams 모드의 토론 메커니즘은 PR 10에서 추가됨. 폴백 경로는 *간단한 평균*만 계산.
 
 ### Phase 6 — LOOP
 
