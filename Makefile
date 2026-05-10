@@ -2,7 +2,7 @@ PYTHON := .venv/bin/python
 PYTEST := .venv/bin/pytest
 VERSION := $(shell jq -r .version .claude-plugin/plugin.json)
 
-.PHONY: help sync-cases sync-slides test test-routing test-anti-patterns test-quality lint typecheck package publish clean
+.PHONY: help sync-cases sync-slides gen-case-catalog test test-routing test-anti-patterns test-quality lint typecheck package publish clean
 
 help:
 	@echo "Available commands:"
@@ -17,6 +17,11 @@ help:
 	@echo "  make package          - Build distributable .zip"
 	@echo "  make publish          - Create GitHub release"
 	@echo "  make clean            - Remove caches and dist/"
+
+gen-case-catalog:
+	$(PYTHON) -m scripts.gen_case_catalog \
+		--cases skills/roasting/references/cases/ \
+		--out docs/ko/case-catalog.md
 
 sync-cases:
 	$(PYTHON) -m scripts.sync_cases \
