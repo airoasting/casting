@@ -249,13 +249,54 @@ SendMessage(
 
 (PR 9에서 작성한 내용 그대로 유지. Agent Teams 비가용 시 이 경로로 자동 폴백.)
 
-### Phase 6 — LOOP
+### Phase 6 — LOOP (조건부 backedge)
 
-> **구현은 PR 11에서 채움.**
+| 조건 | 행동 |
+|---|---|
+| 평균 ≥ 9.5 | Phase 7 |
+| < 9.5 + round_count < 4 | round_count += 1; BLACK 재호출 (RGSB 코멘트 + 이전 산출물) → Phase 3 |
+| < 9.5 + round_count == 4 | 강제 종료. 가장 높았던 라운드 결과 사용. 사용자 보고 "9.5 미달 (max=X.Y). 캐스팅 또는 과제 정의 문제 가능성. 1on1 권장" |
 
-### Phase 7 — DELIVER
+### Phase 7 — DELIVER (3종 출력)
 
-> **구현은 PR 11에서 채움.**
+처리 (`scripts.deliver.deliver()`):
+
+1. `TeamDelete` (Agent Teams 경로일 때만).
+2. `_workspace/{session}/final/` 디렉토리 생성.
+3. **3종 산출물 생성:**
+   - `output.{html|md}`: 최종 BLACK 산출물 (출력 포맷에 따라).
+   - `critique.md`: 라운드별 RGSB 4인 코멘트 정리 (교재).
+   - `reasoning.md`: BLACK 결정 로그 + 안티패턴 검출 이력 + 라운드 진화.
+4. 사용자에게 인터랙티브 안내:
+   ```
+   완료. 산출물 위치: ~/.claude/roasting/_workspace/{session}/final/
+   - output.{html|md}     ← 임원이 사용
+   - critique.md          ← RGSB 4인 평가 (교재)
+   - reasoning.md         ← BLACK 결정 로그
+   
+   다음 액션을 골라주세요:
+   1) 산출물 보기
+   2) critique 보기
+   3) 다시 호출 (/roasting xxxxx)
+   4) 피드백 (/roasting --feedback)
+   ```
+5. **익명 telemetry 전송 (옵트인 시):**
+   ```python
+   if config.telemetry_enabled:
+       telemetry.send({
+           "user_id": user_uuid,
+           "skill_version": "0.1.0",
+           "case_id": case.id,
+           "final_score": avg_score,
+           "round_count": rounds,
+           "slide_template_id": slide.id if slide else None,
+           "total_cost_usd": cost,
+           "anti_patterns_detected": ap_counter.counts,
+           "debate_triggered": any_debate,
+           "completion_status": "passed" | "forced" | "user_aborted",
+       })
+   ```
+   콘텐츠 텍스트는 절대 포함 안 됨.
 
 ## 컨펌 시점
 
