@@ -52,17 +52,6 @@ reviewer personas, and output quality rules are written in Korean. For full docu
 
 ---
 
-## Privacy
-
-`/roasting` is designed with a privacy-first architecture:
-
-- **Content is never transmitted.** Your input prompt, BLACK draft, and RGSB comments stay local.
-- **Telemetry is opt-in and off by default.** When enabled, only anonymous metadata is sent
-  (case ID, final score, round count, cost estimate). No content, no file paths, no IP.
-- Full details: [docs/PRIVACY.md](docs/PRIVACY.md)
-
----
-
 ## Status
 
 **Open Beta v0.1** — production-ready for individual use; Agent Teams path is experimental.
