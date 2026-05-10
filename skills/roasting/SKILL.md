@@ -116,6 +116,90 @@ Inputs:
 
 `anti-patterns.json` 저장: `{detected_iterations: [[...], [...]], final: []}`
 
+### Phase 5 — RGSB REVIEW (Primary Path: Agent Teams)
+
+**자동 탐지:** `TeamCreate` 도구가 가용하면 이 경로, 아니면 Sub-Agent Fallback (다음 절).
+
+#### 5.1 Round 1 — TeamCreate
+
+```python
+TeamCreate(
+    team_name=f"5color-rgsb-{case_id}-{session_id}",
+    members=[
+        {"name": "RED",    "agent": "roasting-red",    "model": "opus"},
+        {"name": "GOLD",   "agent": "roasting-gold",   "model": "opus"},
+        {"name": "SILVER", "agent": "roasting-silver", "model": "sonnet"},
+        {"name": "BLUE",   "agent": "roasting-blue",   "model": "sonnet"},
+    ],
+)
+SendMessage(to="all", content={
+  "black_draft": draft_text,
+  "case_definition": case_md,
+  "round": n,
+})
+```
+
+> `TeamCreate` 호출이 `NotAvailable` 또는 `Forbidden` 에러를 던지면 Sub-Agent Fallback으로 즉시 전환. 다음 라운드에서도 폴백 유지.
+
+#### 5.2 Fan-out 채점
+
+각 페르소나가 독립 컨텍스트에서 채점 → `TaskCreate("scoring-table-round-{n}")` 등록:
+```json
+{"persona": "RED", "score": 9.4, "reason": "...", "suggestion": "..."}
+```
+
+#### 5.3 토론 트리거 (σ ≥ 0.5)
+
+메인이 4 점수의 σ 계산. 트리거 시:
+
+```python
+sorted_by_score = sorted(scores.items(), key=lambda x: x[1].score)
+low = sorted_by_score[0]    # (persona, score)
+high = sorted_by_score[-1]
+# 타이브레이커: 점수 동률 시 GOLD > RED > SILVER > BLUE
+TIEBREAK_ORDER = {"GOLD": 0, "RED": 1, "SILVER": 2, "BLUE": 3}
+
+SendMessage(
+  to=high.persona, from_=low.persona,
+  content=f"{low.persona}({low.score}) → {high.persona}({high.score}): "
+          f"독자/이성 입장 {low.reason} 약점, 점수 재고려",
+)
+SendMessage(
+  to=low.persona, from_=high.persona,
+  content=f"{high.persona}({high.score}) → {low.persona}({low.score}): "
+          f"{high.reason} 강점 고려",
+)
+# 양측 새 점수 + 코멘트 TaskUpdate
+```
+
+1라운드 후 σ 여전히 ≥ 0.5 → "합의 실패" 표시 + 분포 그대로 사용.
+
+#### 5.4 게이트
+
+평균 ≥ 9.5 → Phase 7. 미만 → Phase 6 (round +1).
+
+#### 5.5 라이프사이클 (★ 케이스당 1팀)
+
+- **Round 2+에서 TeamCreate 안 함** (같은 팀 재사용 → 라운드 간 컨텍스트 유지 = 일관성 ↑).
+- 새 BLACK 산출물을 `SendMessage(to="all")`로 broadcast → 5.2부터 반복.
+- Phase 7 진입 직전 1회 `TeamDelete`.
+
+| | Round 1 | Round n+1 |
+|---|---|---|
+| TeamCreate | ✓ | ✗ |
+| BLACK draft broadcast | ✓ | ✓ (새 draft) |
+| 채점 | ✓ | ✓ |
+| 토론 | σ ≥ 0.5 | σ ≥ 0.5 |
+| 비용 | ~$0.18 | ~$0.18 |
+
+#### 5.6 컨텍스트 드리프트 방어
+
+라운드 간 RGSB 컨텍스트 누적 시 채점이 점진적으로 *boost* 또는 *drift*할 위험. 4라운드 cap이 자연 해소.
+
+5라운드 이상으로 늘리지 않음 (Phase 6에서 4라운드에 끊음).
+
+---
+
 ### Phase 5 — RGSB REVIEW (Sub-Agent Fallback Path)
 
 > v0.1에는 두 경로가 있다: **Sub-Agent Fallback (이 절)** + **Agent Teams (PR 10에서 추가)**. Agent Teams 가용 여부를 자동 탐지해 우선 시도, 실패 시 이 경로로 폴백.
@@ -163,7 +247,7 @@ Inputs:
    - 평균 ≥ 9.5 → Phase 7.
    - 미만 → Phase 6 (round_count +1).
 
-> Agent Teams 모드의 토론 메커니즘은 PR 10에서 추가됨. 폴백 경로는 *간단한 평균*만 계산.
+(PR 9에서 작성한 내용 그대로 유지. Agent Teams 비가용 시 이 경로로 자동 폴백.)
 
 ### Phase 6 — LOOP
 
