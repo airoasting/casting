@@ -50,6 +50,31 @@ description: 화이트칼라 산출물(이메일·보고서·PPT·계약서·이
 3. 케이스 카테고리 따라 `references/anti-patterns/*.md` 중 적용 항목만 로드.
 4. `case-context.json` 저장.
 
+#### 2-3. Enrich Field (선택)
+
+케이스 정의에 `enrich:` 필드가 있으면, BLACK이 작성하기 전에 외부 스킬을 호출해 컨텍스트를 보강합니다.
+
+처리:
+1. 케이스의 `enrich` 리스트 순회
+2. 각 항목의 `skill` 이름으로 사용자 환경에 해당 스킬이 설치되어 있는지 확인
+3. `when` 조건 평가 (Haiku judge):
+   - `always`: 무조건 호출
+   - `company_name_detected`: xxxxx에 회사명/티커가 포함되었는지 판정
+   - `strategic_question_detected`: xxxxx가 전략적 질문(경쟁/시장/조직/M&A)인지 판정
+4. 조건 통과 시 `scripts.invoke_skill.invoke(skill, xxxxx)` 호출
+5. 결과를 `enrichments[skill_name]`에 저장
+6. Phase 3 BLACK draft에서 user prompt에 다음 형식으로 첨부:
+   ```
+   [ENRICHMENT FROM /{skill}]
+   {result_summary}
+   [/ENRICHMENT]
+   ```
+
+폴백:
+- 스킬 미설치 → 조용히 건너뜀, 일반 모드로 진행
+- `when` 미통과 → 호출 안 함
+- 호출 실패 → 경고 로그, 일반 모드로 진행
+
 ### Phase 3 — BLACK DRAFT (Producer)
 
 목적: 케이스 BLACK 페르소나 캐스팅으로 산출물 1차 작성.
