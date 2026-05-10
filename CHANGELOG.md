@@ -4,6 +4,24 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-10
+
+### Added
+
+- **Enrich field for case definitions** — cases can now declare `enrich:` to invoke other Claude Code skills (`/dart`, `/strategy`) for automatic context enrichment before BLACK draft.
+- **2 new cases** — `p73 DART 기반 회사 분석 리포트`, `p74 전략 프레임워크 적용 메모`.
+- **9 existing cases enriched** — p25, p28, p29, p31, p33, p34, p37, p40, p45 now declare optional `/dart` and/or `/strategy` enrichment.
+- **scripts/invoke_skill.py** — stub for cross-skill invocation; full runtime integration ships in v0.3.
+
+### Changed
+
+- `scripts/sync_cases.py` preserves `enrich:` field on resync.
+- Routing test set expanded from 189 to 195 phrasings.
+
+### Privacy / Backward compatibility
+
+- `enrich:` is opt-in and gracefully degrades. /roasting works exactly as v0.1 if `/dart` and `/strategy` are not installed.
+
 ## [0.1.0] - 2026-05-10 (Open Beta)
 
 ### Added
