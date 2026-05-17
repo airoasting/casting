@@ -4,6 +4,69 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.4.8] - 2026-05-17
+
+### Removed (Hallucinated Rule Purge)
+
+- **v0.4.6/v0.4.7 "`<deck-stage>` + `deck-stage.js` 강제" 룰 폐기.** 두 항목 모두 환각이었다 — `deck-stage.js`는 GitHub Pages 404 (실재하지 않는 파일), `<deck-stage>`는 어떤 슬라이드 템플릿에도 안 쓰이는 가공 엘리먼트. v0.4.7 후쿠오카 검증 런이 사용자 화면에서 깨진 근본 원인. SKILL.md Phase 2 베이스 룰 + agents/roasting-black.md "HTML 산출물 베이스 룰" 절 전면 개정.
+
+### Added
+
+- **9번째 안티패턴 `slide-template-violation` 신설** (severity: **critical**). HTML 슬라이드 산출물에서 진짜 베이스 룰 위반 검출. 환각 룰 사용 (`<deck-stage>`·`deck-stage.js`·1920×1080 고정), 진짜 룰 누락 (`.deck`·`aspect-ratio: 16/10`·`container-type: inline-size`·`cqi` 단위), 슬라이드 케이스에서 `<script>` 사용을 모두 잡는다. 양성/음성 예시 5개씩.
+- **agents/roasting-black.md "HTML 산출물 베이스 룰" v0.4.8 전면 개정** — 진짜 슬라이드 베이스 구조(`<div class="deck">` + `<div class="slide">` + `max-width: 1200px` + `aspect-ratio: 16/10` + `container-type: inline-size` + `cqi` 단위 + JS 0줄) 명시 + 8개 grep 검증 체크리스트.
+- **BLACK Self-Check에 BLUE 축 1항 추가** — HTML 슬라이드 케이스에서 진짜 베이스 룰 준수 자체 검증.
+- **"Honest Reporting Rule" 신설** (agents/roasting-black.md) — v0.4.7 회고에서 Self-Check 거짓 통과 사례 다수 누적. 메인 Claude가 grep으로 교차 검증한다는 사실을 BLACK에게 명시, 거짓 통과 보고 금지.
+- **Phase 4 강화 — BLACK Self-Check + 메인 grep 교차 검증 의무화** (SKILL.md). 메인 Claude가 BLACK 산출물 받은 직후 환각 룰 0회·em dash 0회·진짜 베이스 룰 존재 등 8개 grep 패턴 실행.
+
+### Fixed
+
+- **v0.4.7 검증 런 사고 1건** (실측 회귀):
+  1. 사용자가 후쿠오카 케이스 출력을 열었을 때 "다 깨졌는데?" 보고 → 진짜 mckinsey-navy 템플릿이 JS 0줄 + CSS 컨테이너 쿼리 구조라는 사실 확인 → 환각 룰 폐기 + R2 재작성 (`.deck` + `aspect-ratio: 16/10` + `cqi` 단위) → 화면 정상 렌더링 확인.
+
+### Added (Korean Polish Pass)
+
+- **Phase 6.5 한국어 검증 의무 패스 신설.** Phase 6 게이트 통과 직후, Phase 7 출력 직전에 산출물의 한국어가 사람 글로 읽히는지 검증한다. /roasting의 RGSB는 콘텐츠 품질을, 본 패스는 한국어 자연스러움을 본다 (독립 레이어).
+- **두 가지 실행 모드:**
+  - **간소 모드 (기본, 자동):** 메인 Claude가 10패턴 grep + 6항 자체검증 + AI 티 점수 산출. 1~2분 추가.
+  - **정밀 모드 (옵션):** BLACK polish 페르소나 + RGSB 4인 풀 패스. 사용자 명시 요청 또는 간소 모드 등급 C·D 컨펌 시 진입.
+- **AI 티 10패턴 정량 룰:** 번역투·영어 인용·기계적 병렬·관용구·피동태·접속사·리듬·이모지·추측·메타. 심각도 L3(결정적, 1개라도 fail)·L2(강함, 3개 이상 fail)·L1(약함).
+- **AI 티 점수 + 등급:** 점수 = 10 − (L3 × 2.0) − (L2 × 0.5) − (L1 × 0.2). 등급 A(점수 ≥ 9.0 + L3 = 0)·B(8.0~8.9 + L3 = 0 + L2 ≤ 4)·C(L3 1~2 또는 7.0~7.9)·D(L3 ≥ 3 또는 < 7.0).
+- **6항 자체검증:** 의미 동등·변경률·말투 일관·장르 이탈 없음·AI 티 등급 A 또는 B·em dash 0개.
+- **산출물 자동 수정 금지.** 본 패스가 자동으로 BLACK을 재호출해 산출물을 수정하지 않는다. 등급 A·B 통과, C·D면 사용자 컨펌 후 처리.
+- **새 산출물 1종 추가** (`final/korean-polish.md`) — 등급·AI 티 점수·10패턴 카운트·6항 자체검증 결과. 산출물 총 3종 → **4종**으로 확장.
+- **references/korean-polish.md 신설** — 사용자 제공 5인 페르소나 시스템 프롬프트 원문 보존 + /roasting 통합 절차.
+
+### Migration Note
+
+기존 v0.4.6/v0.4.7로 생성된 HTML 슬라이드 산출물(오사카 일정·후쿠오카 일정·이전 4050 액션 R1)은 모두 환각 룰을 따랐기 때문에 사용자 화면에서 깨질 가능성이 있다. 필요 시 BLACK 재호출로 v0.4.8 베이스 룰 재적용 권고. 본 패치와 함께 4050 액션 케이스(20260517_04)의 final/output.html은 R2(진짜 베이스 룰)로 이미 교체 완료. Phase 6.5 한국어 검증 패스는 v0.4.8 이후 새 호출부터 자동 적용.
+
+## [0.4.7] - 2026-05-17
+
+### Added
+
+- **입력 사전 처리 (SKILL.md Phase 2-3 신설 — Pre-Processing Pack)** — BLACK 호출 전에 메인 Claude가 사용자 입력의 빈칸·날짜·1차 출처를 미리 처리해 패키지로 박아준다. 3개 영역:
+  1. **날짜·시간 정합성** — 상대 날짜(다음주 금요일·이번 주말 등)를 오늘 기준 절대 날짜·요일로 환산해 `dates_resolved`로 저장.
+  2. **누락 파라미터 기본값 + 명시 라벨** — 인원·예산·출발지·동반자 같은 결정 핵심 파라미터에 합리적 기본값 박고 산출물 표지에 명시 라벨로 노출.
+  3. **1차 출처 화이트리스트** — fact-heavy 입력에 도메인별 1차 출처(항공사 공식·DART·외교부·기상청 등) 화이트리스트를 BLACK에 박아 2차 출처(블로그·KKday)만 보고 작성하는 패턴 차단.
+  - 결과를 `{session_dir}/pre-processing.json`에 저장하고 BLACK 프롬프트 머리에 첨부.
+- **BLACK 자기 점검 체크리스트 (agents/roasting-black.md "Self-Check Before Submit" 절 신설)** — 1차 작성 직후 RGSB 4인의 채점 기준을 BLACK이 스스로 미리 돌린다. RED(이성·구조·근거 5항), SILVER(도메인 디테일·관행 4항), BLUE(호흡·가독성 5항), GOLD(실사용 시나리오 4항). 미통과 항목은 그 자리에서 자체 수정(라운드 카운트 안 깎임). R1 평균 8.7→9.2 목표.
+- **8번째 안티패턴 `internal-contradiction` 신설** — BLACK 산출물 내부의 자기 모순 검출. 라벨↔본문 충돌, 동일 객체 수치 불일치, Pre-Processing Pack과 본문 충돌, 헤더↔본문 약속 불일치, 날짜·요일 자가 모순 5종 패턴. 양성/음성 예시 5개씩 + 재작성 지시 + 적용 제외 (소설·시·심리상담). 모든 일반 카테고리에 적용.
+- **RGSB 코멘트 Trust 룰 (SKILL.md Phase 6.1 신설)** — BLACK이 RGSB 코멘트를 받았을 때 명백한 사실 오류 코멘트(Pre-Processing Pack 충돌·1차 출처 충돌·페르소나 정의 충돌)는 `round-{n}/rejected-comments.md`에 사유 명시 후 기각 가능. 나머지 도메인 디테일·시나리오 빈칸·매거진 톤 코멘트는 반영 의무. 한 라운드에 같은 페르소나 코멘트 2건 이상 기각 시 사용자 알림(캐스팅 재검토).
+
+### Changed
+
+- **Phase 4 검출 룰 7종 → 8종** — `internal-contradiction` 추가로 룰 개수 갱신. 참조 파일 인덱스 동기화.
+- **Phase 3 BLACK 입력 프로토콜** — `Pre-Processing Pack`을 명시적 입력 항목으로 추가. 기존 케이스 정의·슬라이드 템플릿·이전 라운드 코멘트·enrichments에 더해진다.
+- **enrich 절 번호 재정렬** — 기존 2-3 Enrich Field가 2-3 입력 사전 처리 신설로 인해 2-4로 이동. SKILL.md 본문의 "Phase 2-3" 참조를 "Phase 2-4"로 동기화.
+
+### Fixed
+
+- **v0.4.6 오사카 여행 일정 사고 4건 일괄 차단** (실측 회귀):
+  1. RED가 5/22 요일을 토요일로 오판정 → Pre-Processing Pack `dates_resolved`로 사전 환산 + Trust 룰로 BLACK이 기각 가능.
+  2. 인터컨티넨탈 area 라벨 "신사이바시" vs desc "우메다 그랜드 프론트 직결" 자기 모순 → `internal-contradiction` 안티패턴 신설로 Phase 4에서 검출.
+  3. 라피트 1,490엔이 2차 출처 KKday 기준이라 웹 할인가 누락 → 1차 출처 화이트리스트로 난카이 공식 우선 시도 강제.
+  4. GOLD가 R1에서 "1인/2인 분기 빈칸"으로 8.2 깎음 → Pre-Processing Pack `param_defaults`로 기본값 명시 라벨 강제.
+
 ## [0.4.6] - 2026-05-17
 
 ### Added
