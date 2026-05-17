@@ -276,13 +276,42 @@ npx skills add https://github.com/Leonxlnx/taste-skill
 
 세 파일은 모두 `{output_dir}/{세션}/final/`에 저장됩니다. 외부로 나가지 않습니다.
 
-**저장 위치 변경 (v0.4.2 신설):** `~/.claude/roasting/config.json`에 `output_dir` 필드를 두면 모든 호출의 세션 폴더가 그 위치로 이동합니다. 예:
+**저장 위치 변경 (v0.4.2 신설):** `~/.claude/roasting/config.json`에 `output_dir` 필드를 두면 모든 호출의 세션 폴더가 그 위치로 이동합니다. config가 없거나 필드가 비어 있으면 디폴트(`~/.claude/roasting/_workspace/`)를 사용합니다. 절대 경로 또는 `~` 시작 경로 모두 지원.
 
-```json
+#### macOS / Linux
+
+`~/Desktop/Roasting`처럼 바탕화면 하위 폴더를 그대로 쓰면 됩니다.
+
+```bash
+mkdir -p ~/.claude/roasting ~/Desktop/Roasting
+cat > ~/.claude/roasting/config.json << 'EOF'
 {"output_dir": "~/Desktop/Roasting"}
+EOF
 ```
 
-config가 없거나 필드가 비어 있으면 디폴트(`~/.claude/roasting/_workspace/`)를 사용합니다. 절대 경로 또는 `~` 시작 경로 모두 지원.
+#### Windows
+
+Windows 바탕화면은 OneDrive 연동 여부에 따라 실경로가 달라집니다(`~/Desktop/...` 또는 `~/OneDrive/Desktop/...`). 헷갈림을 피하려면 **홈 디렉토리 바로 아래 `~/Roasting` 폴더**를 권장합니다 — OneDrive 리다이렉트 영향을 받지 않고 모든 PC에서 같은 경로로 풀립니다.
+
+PowerShell 한 번에:
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\Roasting" | Out-Null
+New-Item -ItemType Directory -Force "$HOME\.claude\roasting" | Out-Null
+@'
+{"output_dir": "~/Roasting"}
+'@ | Set-Content "$HOME\.claude\roasting\config.json"
+```
+
+cmd:
+
+```cmd
+mkdir "%USERPROFILE%\Roasting" 2>nul
+mkdir "%USERPROFILE%\.claude\roasting" 2>nul
+echo {"output_dir":"~/Roasting"} > "%USERPROFILE%\.claude\roasting\config.json"
+```
+
+바탕화면에 꼭 두고 싶다면 탐색기 주소창에서 바탕화면의 실경로(`~/Desktop` 또는 `~/OneDrive/Desktop`)를 확인하고 그걸 그대로 `output_dir`에 적습니다.
 
 ---
 

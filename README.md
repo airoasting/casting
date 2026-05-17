@@ -219,14 +219,44 @@ end-of-sentence style.
 All three live in `{output_dir}/{session}/final/`. Nothing leaves the local machine.
 
 **Custom output location (v0.4.2):** Set `~/.claude/roasting/config.json` with an
-`output_dir` field to redirect all session folders:
+`output_dir` field to redirect all session folders. If the config file is missing or the
+field is empty, defaults to `~/.claude/roasting/_workspace/`. Absolute paths and
+`~`-prefixed paths both work.
 
-```json
+**macOS / Linux:**
+
+```bash
+mkdir -p ~/.claude/roasting ~/Desktop/Roasting
+cat > ~/.claude/roasting/config.json << 'EOF'
 {"output_dir": "~/Desktop/Roasting"}
+EOF
 ```
 
-If the config file is missing or the field is empty, defaults to
-`~/.claude/roasting/_workspace/`. Absolute paths and `~`-prefixed paths both work.
+**Windows:** Desktop location varies depending on OneDrive sync, so the cleanest option
+is `~/Roasting` (directly under the home directory — not affected by OneDrive redirection,
+resolves the same on every PC).
+
+PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\Roasting" | Out-Null
+New-Item -ItemType Directory -Force "$HOME\.claude\roasting" | Out-Null
+@'
+{"output_dir": "~/Roasting"}
+'@ | Set-Content "$HOME\.claude\roasting\config.json"
+```
+
+cmd:
+
+```cmd
+mkdir "%USERPROFILE%\Roasting" 2>nul
+mkdir "%USERPROFILE%\.claude\roasting" 2>nul
+echo {"output_dir":"~/Roasting"} > "%USERPROFILE%\.claude\roasting\config.json"
+```
+
+If you really want the Windows Desktop, open Explorer and check the actual Desktop path
+(usually `~/Desktop/...` without OneDrive, `~/OneDrive/Desktop/...` with OneDrive), then
+put that into `output_dir`.
 
 ---
 
