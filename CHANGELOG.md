@@ -4,6 +4,12 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-05-17
+
+### Changed
+
+- **버전 bump (no functional changes)** — v0.4.0 동일 워크플로우·동일 통합. plugin.json·SKILL.md·output-formats.md의 버전 라벨만 0.4.1로 일치.
+
 ## [0.4.0] - 2026-05-17
 
 ### Added

@@ -394,4 +394,4 @@ npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-fro
 
 `/roasting xxxxx` (또는 자연어) → 68 케이스 자동 라우팅 → BLACK 1명 + RGSB 4인 5-Color → 9.5 합격선 + 4라운드 → 산출물 3종.
 
-**한국어 전용. 베타 v0.4.** 세부 변경 이력은 [`CHANGELOG.md`](../../CHANGELOG.md) 참조.
+**한국어 전용. 베타 v0.4.1.** 세부 변경 이력은 [`CHANGELOG.md`](../../CHANGELOG.md) 참조.
