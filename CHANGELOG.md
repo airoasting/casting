@@ -4,6 +4,17 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-05-17
+
+### Added
+
+- **사용자 출력 폴더 지원** — `~/.claude/roasting/config.json`의 `output_dir` 필드로 모든 호출의 산출물 저장 위치 지정 가능. 예: `{"output_dir": "~/Desktop/Roasting"}`로 두면 매 호출마다 `~/Desktop/Roasting/{session_id}/`에 input·round-N·final 전체 세션이 저장됩니다. config 없거나 필드가 빈 문자열이면 기존 디폴트(`~/.claude/roasting/_workspace/{session_id}/`) 그대로. 향후 필드 확장(예: `default_slide_template`, `telemetry`)을 위해 객체 구조 유지.
+
+### Changed
+
+- **SKILL.md 산출물 경로 추상화** — 본문의 하드코딩된 `~/.claude/roasting/_workspace/` 경로를 `{session_dir}`(Phase 0에서 결정)로 일관 교체. Phase 3 BLACK draft 출력, Phase 4 strikes.json, Phase 7 final/ 모두 단일 변수 참조.
+- **디스크 풀 폴백 표 갱신** — `output_dir`이 사용자 폴더(예: Desktop)일 때는 자동 삭제하지 않고 사용자에게 알림 후 중단. 디폴트 `_workspace`에서만 가장 오래된 5개 자동 삭제.
+
 ## [0.4.1] - 2026-05-17
 
 ### Changed

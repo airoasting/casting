@@ -5,7 +5,7 @@
 > 68 cases (emails, board memos, IR letters, landing pages, image-prompt sets, hand-coded
 > websites, DART company briefs, strategy memos …), iterates against a **9.5 / 10** pass
 > bar with anti-pattern pre-correction, and delivers polished Korean output. All inside
-> Claude Code. Open Beta v0.4.1.
+> Claude Code. Open Beta v0.4.2.
 
 **Korean documentation:** [README.ko.md](README.ko.md)
 
@@ -216,8 +216,17 @@ end-of-sentence style.
 | `critique.md` | Per-round reviewer comments | Teaching material, next-call learning |
 | `reasoning.md` | BLACK decision log + anti-pattern history | Audit, reproducibility, debugging |
 
-All three live in `~/.claude/roasting/_workspace/{session}/final/`. Nothing leaves the local
-machine.
+All three live in `{output_dir}/{session}/final/`. Nothing leaves the local machine.
+
+**Custom output location (v0.4.2):** Set `~/.claude/roasting/config.json` with an
+`output_dir` field to redirect all session folders:
+
+```json
+{"output_dir": "~/Desktop/Roasting"}
+```
+
+If the config file is missing or the field is empty, defaults to
+`~/.claude/roasting/_workspace/`. Absolute paths and `~`-prefixed paths both work.
 
 ---
 
@@ -253,7 +262,7 @@ definitions. Cost is deterministic, not exploratory.
 
 ## Status
 
-**Open Beta v0.4.1.** Production-ready for individual use. The Agent Teams path remains
+**Open Beta v0.4.2.** Production-ready for individual use. The Agent Teams path remains
 experimental and falls back to sequential sub-agent execution on error. Known limits and
 roadmap are in [README.ko.md § 12 알려진 한계](README.ko.md).
 
@@ -277,7 +286,7 @@ roadmap are in [README.ko.md § 12 알려진 한계](README.ko.md).
   through Claude's `Skill` tool directly. The earlier stub references to non-existent Python
   scripts have been replaced with explicit "Claude procedure" descriptions.
 
-Verified quality metrics (v0.2 measurement; no regression in v0.3 / v0.4 / v0.4.1):
+Verified quality metrics (v0.2 measurement; no regression in v0.3 / v0.4 / v0.4.1 / v0.4.2):
 
 | Gate | Target | Measured |
 |---|---|---|
