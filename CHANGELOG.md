@@ -4,6 +4,14 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-05-17
+
+### Changed
+
+- **세션 폴더 명명 규칙** — `{YYYYMMDD-HHMMSS}-{tmpid}` → **`{YYYYMMDD}_{NN}`** (예: `20260517_01`). 그날 N번째 작업물이 한눈에 보이도록 단순화. NN은 그날 `output_dir/` 안의 기존 `{YYYYMMDD}_*` 폴더를 스캔해 max+1로 결정, 2자리 zero-padding (100개 이상이면 자동 3자리 확장).
+- **시작 시각 보존** — 폴더명에서 시각 정보가 빠졌으므로 `{session_dir}/meta.json`에 `{"started_at": "ISO-8601", "session_id": "..."}`를 Phase 0에 저장. Phase 7 소요 시간 계산은 meta.json에서 읽음.
+- **Phase 7 deliver 경로 안내** — 산출물 경로를 항상 session_id 폴더명 포함 전체 경로로 표시 (예: `~/Desktop/Roasting/20260517_01/final/output.html`). 사용자가 그날 N번째 작업물을 즉시 식별 가능.
+
 ## [0.4.3] - 2026-05-17
 
 ### Added
