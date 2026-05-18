@@ -4,6 +4,58 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.4.16] - 2026-05-19
+
+### Added (디폴트 템플릿 풀 확장 — 7종 → 8종)
+
+- **`retro-magazine` (레트로 잡지) 추가.** 베이지 종이에 초록 포인트, 인디 잡지·수공예·언더그라운드·웜 레트로 무드. `retro-cassette`(레트로 카세트 — 카와이/아날로그)와 인접 배치(rank 3·4)해 "레트로 + casual + light" 페어로 묶음. 사용 권장 시점:
+  - 인디 출판·진(zine) · 수공예 브랜드 런칭 · 음악·예술 브랜드 · 크리에이터 포트폴리오
+  - "투박한·종이 느낌·핸드메이드·언더그라운드·진본" 어휘가 입력에 있을 때
+  - retro-cassette이 너무 카와이로 느껴지는 진지한 인디 톤
+
+새 순위표:
+
+| 순위 | 슬러그 | 한국어 이름 | 추가/유지 |
+|---|---|---|---|
+| 1 | `dark-magazine` | 다크 매거진 | 유지 |
+| 2 | `soft-classic` | 소프트 클래식 | 유지 |
+| 3 | `retro-cassette` | 레트로 카세트 | 유지 |
+| 4 | `retro-magazine` | 레트로 잡지 | **신규** |
+| 5 | `sunshine-yellow` | 선샤인 옐로 | 유지 (4→5) |
+| 6 | `warm-cream` | 따뜻한 크림 | 유지 (5→6) |
+| 7 | `soft-neumorph` | 소프트 뉴모피즘 | 유지 (6→7) |
+| 8 | `colorful-creative` | 알록달록 크리에이티브 | 유지 (7→8) |
+
+SKILL.md §D2 헤더·표·절차·Phase 2-2 선정 절차 §3·§4·§7·§8 알림 라인·preferences 사유 예시·한 줄 요약 모두 "7종"→"8종"으로 일괄 갱신.
+
+### Added (R1 평균을 끌어올리는 5가지 — generic_case·하이브리드 모드 한정 보강)
+
+v0.4.15까지 generic_case는 케이스 시드를 완전히 버리고 5인 페르소나만으로 굴렸다. AI 시대·전략·리더십 같은 추상 주제에서 R1 SILVER가 8.7~9.0에서 시작하는 패턴이 누적 관찰됐다(실측 세션 20260518_03: SILVER R1 8.7 → R3 9.6, 평균 9.2 → 9.625, 3 라운드 19분 38초). v0.4.16은 R1 출발점을 끌어올리고 라운드 비용을 줄인다.
+
+- **하이브리드 모드 (SKILL.md Phase 1 §5-1).** top-1 라우팅 신뢰도가 0.40~0.50 회색지대면 페르소나는 generic 프로파일을 쓰되 BLACK 톤 가이드·GOLD 시나리오 힌트만 top-1 케이스 정의에서 차용. 라우팅 fall-through로 모든 시드를 버리는 손실을 줄임.
+- **추상 주제 감지 + 도메인 어휘 화이트리스트 (SKILL.md Phase 2-3 §4 신설).** 입력이 추상 주제(AI·전략·리더십·트렌드)면 `abstract_topic_detected = True` 자동 마킹. 도메인 어휘 화이트리스트 7개 풀(컨설팅·마케팅·재무·HR·VC·AI·법무) 중 추론된 도메인의 어휘를 BLACK 프롬프트에 "본문에 자연스럽게 최소 5개 박을 것"으로 강제. R1 SILVER drag 자연 차단.
+- **preferences 자동 저장 (SKILL.md Phase 2-2 §6).** 첫 호출에서 선택한 슬라이드 템플릿을 Phase 7 직후 `{output_dir 또는 ~/.claude/roasting}/preferences/{case_id|generic_case}.json`에 자동 저장. 다음 동일 호출에서 일관성 유지.
+- **수렴 saturation 컨펌 (SKILL.md Phase 6 LOOP 표 신설 행).** 9.4 ≤ 평균 < 9.5 + Δ < 0.1 + round_count < 4면 사용자 1턴 컨펌 (1) 한 라운드 더 (2) 9.4x 그대로 (3) 정밀 폴리시 (4) 중단. 0.025 미달처럼 ROI 좋은 경우와 0.2 미달처럼 안 좋은 경우를 자동 분기.
+- **BLACK 라운드 간 SendMessage 경로 (SKILL.md Phase 6 §6.0).** R1에서 띄운 BLACK 서브에이전트의 agentId를 `meta.json`에 기록, R2~R4는 새 dispatch 대신 SendMessage 재호출. `agents/roasting-black.md` 재로드 비용 + 라운드 일관성 비용 동시 절감. 라운드당 ~30~40초 절약.
+- **Korean polish 컨텍스트 L3 grep (SKILL.md Phase 6.5 간소 모드 §3 신설).** L3 카운트 양성 hit마다 30자 컨텍스트 grep 의무화. 의존명사 뒤 "에 대한"·강조 부사 뒤 "에 있어서" 같은 false positive 자동 제외 후 `L3_adjusted` 값으로 등급 판정.
+
+### Changed
+
+- **`pre-processing.json` 스키마 확장.** `abstract_topic_detected`, `inferred_domain`, `vocab_whitelist` 3개 필드 추가.
+- **BLACK 프롬프트 PRE-PROCESSING PACK 블록.** 추상 주제일 때 `vocab_whitelist` 라인 추가.
+- **`korean-polish.md` 산출물.** "L3 hit 분석" 절 신설 (hit · 30자 컨텍스트 · 분류 · 사유).
+
+### Why
+
+세션 20260518_03(AI 시대 전략 컨설턴트 조언 위트있게)에서 다음 패턴이 측정됐다.
+
+- **R1 SILVER 8.7 — 컨설팅 실무 어휘 0개.** R2까지 가야 Day-1 Hypothesis 등 어휘가 박혔다. R1 사전 시딩이면 SILVER 9.2+ 가능.
+- **R2 평균 9.475 (0.025 미달).** 게이트 통과까지 R3 필요. saturation 컨펌이 있었다면 사용자가 선택권을 가짐.
+- **BLACK 3회 새 dispatch.** 동일 페르소나 파일·베이스 룰 3회 재로드.
+- **Korean polish L3 1회 ("월요일 아침에 뭘 할지에 대한 확신") = false positive.** 등급 C 떨어질 뻔. 컨텍스트 검증이 필수.
+
+3종 보강(R1 출발점 + 라운드 비용 + Phase 6.5 false positive)이 전체 호출당 3~5분 절약 + R1 평균 0.3~0.5 상승을 목표로 한다.
+
 ## [0.4.15] - 2026-05-18
 
 ### Added (표준 슬라이드 네비게이션 — 키노트/파워포인트식 조작)
