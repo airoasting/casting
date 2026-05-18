@@ -14,7 +14,10 @@
 | 마케팅 — c74 이미지 제작 | Markdown | 7단 프롬프트 세트 (장면·구도·조명·색감·스타일·비율·네거티브) |
 | 마케팅 — 그 외 2개 (c56 카피·이름, c59 브랜드 가이드) | Markdown | |
 | 커리어·상담 (4개) | Markdown | 이력서는 v0.4에 HTML 옵션 추가 가능 |
-| **케이스 미매칭 (generic_case) + 사용자가 HTML/페이지 요청** | **HTML — `assisted` 모드 (Phase 2 §A 참조)** | generic 폴백의 HTML 빌더 |
+| **케이스 미매칭 (generic_case) — 디폴트 (v0.4.14)** | **HTML — `slides` 모드 (디폴트 풀 7종 우선)** | 사용자 미지정 시 슬라이드 데크. SKILL.md "기본 설정 D1" 참조 |
+| 케이스 미매칭 (generic_case) + 사용자가 "랜딩·웹사이트" 명시 | HTML — `landing` 모드 | 한 페이지 자립 HTML |
+| 케이스 미매칭 (generic_case) + 사용자가 "대시보드·일정표·인터랙티브" 명시 | HTML — `assisted` 모드 (Phase 2 §A 참조) | generic 폴백의 HTML 빌더 |
+| 케이스 미매칭 (generic_case) + 사용자가 "이메일·메모·MD·텍스트" 명시 | Markdown | 비-슬라이드 신호 명시 시 |
 
 ## HTML 빌더 4종 모드 — 단일 진실
 

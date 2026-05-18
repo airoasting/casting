@@ -4,6 +4,39 @@ This project follows [Semantic Versioning](https://semver.org/) and [Keep a Chan
 
 ## [Unreleased]
 
+## [0.4.14] - 2026-05-18
+
+### Added (No-Specify Defaults — 기본 설정 4종)
+
+사용자가 출력 포맷·템플릿·분량·구조를 명시하지 않을 때 결정 결과를 결정적으로 만든다. 매 호출의 디자인·스토리·분량 결과가 예측 가능해 디버깅과 일관성이 동시에 올라간다.
+
+- **D1. 기본 출력 포맷 = HTML 슬라이드.** 사용자 입력에 비-슬라이드 신호(이메일·메모·MD·텍스트·이력서·사과문)가 없고 케이스 정의가 Markdown을 강제하지 않으면 `html_mode: slides`로 디폴트. generic_case 폴백에서도 동일.
+- **D2. 기본 템플릿 우선순위 7종.** Phase 2 §2-2 top-3 추출 시 다음 7종을 1차 풀로 평가. 7종 중 7점 이상이 1개라도 있으면 7종 안에서 top-3 추출, 모두 7점 미만이면 35종 전체로 폴백.
+  1. `dark-magazine` (다크 매거진)
+  2. `soft-classic` (소프트 클래식 — 사용자 요청의 "스튜디오 살롱" 자리)
+  3. `retro-cassette` (레트로 카세트)
+  4. `sunshine-yellow` (선샤인 옐로)
+  5. `warm-cream` (따뜻한 크림)
+  6. `soft-neumorph` (소프트 뉴모피즘)
+  7. `colorful-creative` (알록달록 크리에이티브)
+- **D3. 기본 슬라이드 수 = 5~10장.** 메시지 1~2개면 5~6장, 3~4개면 7~8장, 5개면 9~10장. 케이스 정의가 분량 강제 시 케이스 정의 우선.
+- **D4. 기본 스토리라인 = 3~5개의 조언·제언·메시지.** 표지(1) + 메시지 3~5(각 1~2장) + 클로징(1). 메시지 형태는 반전형·재정의형·단정형·관찰형 4종 중 입력 톤에 맞는 것으로 BLACK이 자동 추론.
+- **D5. 디폴트 적용 시 1줄 알림.** Phase 7 완료 푸터에 "디폴트 적용: HTML 슬라이드 · {템플릿} · {N}장 · 메시지 {M}개" 한 줄 자동 노출.
+
+### Changed
+
+- **Phase 1 generic_case 출력 포맷 추정 룰.** "그 외 → Markdown"이 디폴트였던 폴백 분기가 "그 외 → HTML slides 디폴트 풀 7종"으로 뒤집힘. 비-슬라이드 신호·랜딩 신호·인터랙티브 신호·이미지 신호가 명시될 때만 다른 모드로 분기.
+- **Phase 2 §2-2 슬라이드 템플릿 선택 절차.** 단계 3에 "디폴트 풀 우선 평가" 신설. 35종 전체 평가는 7종 모두 7점 미만일 때만 진입. 단계 번호 4~10 재정렬.
+- **Phase 3 BLACK dispatch.** 사용자 미지정 + slides 모드일 때 `[DEFAULT STORYLINE]` 블록을 BLACK 프롬프트 머리에 박는다. structure·message_count·slide_count·message_form 4개 필드 강제.
+- **references/output-formats.md.** generic_case 행을 4행으로 분해(슬라이드 디폴트·랜딩·assisted·Markdown 명시). 슬라이드 디폴트가 표 머리에 위치.
+- **plugin.json 버전:** 0.4.13 → 0.4.14.
+
+### Rationale
+
+2026-05-18 사용자 지시. "사용자가 별 말이 없으면 HTML 슬라이드로 만들어줘. 디폴트 테마 7종, 5~10장, 3~5개 메시지." 기존 v0.4.13까지는 generic_case가 Markdown으로 떨어졌고, 슬라이드 템플릿은 35종 전부에서 매번 새로 선정해 디자인 결과가 호출마다 흔들렸다. 디폴트를 결정적으로 박아 사용자가 "다른 무드 원해"라고 말할 때만 디폴트를 벗어나는 구조로 전환.
+
+사용자 요청 중 "스튜디오 살롱" 템플릿은 슬라이드 라이브러리에 존재하지 않아 사용자 컨펌으로 `soft-classic`(소프트 클래식 — "따뜻한 종이에 파스텔 포인트, 우아하고 조용한 톤")으로 대체.
+
 ## [0.4.13] - 2026-05-17
 
 ### Added (English-Verb Direct-Translation Block — 10th Anti-Pattern)
