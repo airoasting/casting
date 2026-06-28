@@ -6,6 +6,7 @@
 ![Agents](https://img.shields.io/badge/Agents-50%20Verified-d2691e)
 ![Recipes](https://img.shields.io/badge/Recipes-12%20Harnesses-d2691e)
 ![Mode](https://img.shields.io/badge/Mode-Agent%20Teams-2ea44f)
+![Runs on](https://img.shields.io/badge/Runs%20on-Claude%20Code%20%2B%20ChatGPT-1f6feb)
 
 ![Layer](https://img.shields.io/badge/Layer-L3%20Execution-d2691e)
 ![Sub-layer](https://img.shields.io/badge/Sub--layer-Verified%20Team%20Executor-008080)
@@ -55,6 +56,15 @@ Claude Code를 재시작하면 스킬이 로드된다.
 
 검토자는 산출물을 만들지 않은 **독립 에이전트**로, 사용자의 원래 목적·자료에 대고 구체적 결함부터 찾는다. 결함이 하나라도 있으면 9.5를 주지 않고, 그 단계로 한 번 되돌려 보강한 뒤 통과시킨다. (실측 테스트에서 게이트가 첫 통과를 거부하고 6.5로 불합격 처리한 뒤 보강을 요구했다. 통과를 거저 주지 않는, 실제로 떨어지는 게이트다.)
 
+## ChatGPT에서 쓰기
+
+Claude Code 외에 **ChatGPT(Custom GPT)** 로도 같은 동작을 쓸 수 있다. `platforms/chatgpt/`에 셋업이 있다.
+
+- `platforms/chatgpt/INSTRUCTIONS.md` — Custom GPT "Instructions"에 붙여 넣을 본문
+- `platforms/chatgpt/SETUP.md` — 5분 셋업(Instructions 붙여넣기 + `references/` 4개를 Knowledge로 업로드 + 브라우징 켜기)
+
+ChatGPT엔 서브에이전트가 없어 실행은 **단일 모델 순차 모드**(스킬의 폴백 모드)로, 게이트는 "냉정 재독" 독립 검토로 동작한다. 검증된 50 부품·12 레시피·9.5 게이트는 동일하다.
+
 ## 장착 도구
 
 일부 팀원은 AI ROASTING 자사 도구를 역할별로 쥐고 있다.
@@ -74,11 +84,15 @@ roasting/
 ├── SKILL.md                       # 트리거 · 설계 알고리즘 · 실행 프로토콜 · 9.5 게이트
 ├── README.md                      # 이 문서
 ├── LICENSE                        # Apache License 2.0
-└── references/
-    ├── catalog.md                 # 50명 부품 표(선발용)
-    ├── harnesses.md               # 12 레시피 + 토글 + 매칭 키워드
-    ├── agent-prompts.md           # 50명 전체 시스템 프롬프트(실행용, id로 선택)
-    └── execution-modes.md         # 실행 모드 3종 · 병렬/순차 · 에이전트·검토자 템플릿
+├── references/
+│   ├── catalog.md                 # 50명 부품 표(선발용)
+│   ├── harnesses.md               # 12 레시피 + 토글 + 매칭 키워드
+│   ├── agent-prompts.md           # 50명 전체 시스템 프롬프트(실행용, id로 선택)
+│   └── execution-modes.md         # 실행 모드 3종 · 병렬/순차 · 에이전트·검토자 템플릿
+└── platforms/
+    └── chatgpt/
+        ├── INSTRUCTIONS.md        # Custom GPT Instructions 본문
+        └── SETUP.md               # ChatGPT 셋업 가이드
 ```
 
 ## 영감
