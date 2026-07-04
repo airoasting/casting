@@ -25,12 +25,16 @@
 
 ## 설치
 
+이 저장소를 클론한 뒤, 스킬 파일을 Claude Code 스킬 폴더로 복사합니다(저장소 루트에는 스킬 파일과 함께 데모 웹사이트 `index.html`·`assets/`도 있으므로, 스킬 구성 파일만 골라 복사합니다).
+
 ```bash
-# 프로젝트의 .claude/skills/ 아래로 복사
-cp -r casting <your-project>/.claude/skills/casting
+git clone https://github.com/airoasting/50agents.git
+# 모든 프로젝트에서 쓰려면 사용자 레벨(~/.claude/skills)
+mkdir -p ~/.claude/skills/casting
+cp -r 50agents/{SKILL.md,README.md,LICENSE,references,platforms} ~/.claude/skills/casting/
 ```
 
-Claude Code를 재시작하면 스킬이 로드됩니다.
+특정 프로젝트에서만 쓰려면 `~/.claude/skills/casting` 대신 `<your-project>/.claude/skills/casting`으로 복사합니다. Claude Code를 재시작하면 스킬이 로드되고, `/casting`으로 발동합니다.
 
 ## 사용법
 
@@ -96,20 +100,21 @@ ChatGPT엔 서브에이전트가 없어 실행은 **단일 모델 순차 모드*
 
 ## 구조
 
+저장소 루트에 스킬 구성 파일이 있습니다(에이전트 팀 빌더 데모 웹사이트 `index.html`·`assets/`와 같은 루트를 공유합니다).
+
 ```
-casting/
-├── SKILL.md                       # 트리거 · 설계 알고리즘 · 실행 프로토콜 · 9.5 게이트
-├── README.md                      # 이 문서
-├── LICENSE                        # Apache License 2.0
-├── references/
-│   ├── catalog.md                 # 50명 부품 표(선발용)
-│   ├── harnesses.md               # 28 레시피 + 토글 + 매칭 키워드
-│   ├── agent-prompts.md           # 50명 전체 시스템 프롬프트(실행용, id로 선택)
-│   └── execution-modes.md         # 실행 모드 3종 · 병렬/순차 · 에이전트·검토자 템플릿
-└── platforms/
-    └── chatgpt/
-        ├── INSTRUCTIONS.md        # Custom GPT Instructions 본문
-        └── SETUP.md               # ChatGPT 셋업 가이드
+SKILL.md                   # 트리거 · 라우터 결정 사다리 · 실행 프로토콜 · 9.5 게이트
+README.md                  # 이 문서
+LICENSE                    # Apache License 2.0
+references/
+├── catalog.md             # 50명 부품 표(선발용)
+├── harnesses.md           # 28 레시피 + 라우터 결정 사다리 + 토글
+├── agent-prompts.md       # 50명 전체 시스템 프롬프트(실행용, id 구간으로 선택)
+└── execution-modes.md     # 실행 모드 3종 · 실제 도구 호출 문법 · 검토자 템플릿
+platforms/
+└── chatgpt/
+    ├── INSTRUCTIONS.md    # Custom GPT Instructions 본문
+    └── SETUP.md           # ChatGPT 셋업 가이드
 ```
 
 ## 라이선스
