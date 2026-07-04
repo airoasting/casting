@@ -28,10 +28,10 @@
 이 저장소를 클론한 뒤, 스킬 파일을 Claude Code 스킬 폴더로 복사합니다(저장소 루트에는 스킬 파일과 함께 데모 웹사이트 `index.html`·`assets/`도 있으므로, 스킬 구성 파일만 골라 복사합니다).
 
 ```bash
-git clone https://github.com/airoasting/50agents.git
+git clone https://github.com/airoasting/casting.git
 # 모든 프로젝트에서 쓰려면 사용자 레벨(~/.claude/skills)
 mkdir -p ~/.claude/skills/casting
-cp -r 50agents/{SKILL.md,README.md,LICENSE,references,platforms} ~/.claude/skills/casting/
+cp -r casting/{SKILL.md,README.md,LICENSE,references,platforms} ~/.claude/skills/casting/
 ```
 
 특정 프로젝트에서만 쓰려면 `~/.claude/skills/casting` 대신 `<your-project>/.claude/skills/casting`으로 복사합니다. Claude Code를 재시작하면 스킬이 로드되고, `/casting`으로 발동합니다.
