@@ -9,7 +9,7 @@
 ![Also on](https://img.shields.io/badge/Also%20on-ChatGPT-555555)
 [![Live](https://img.shields.io/badge/Live-50agents.vercel.app-FE90E8)](https://50agents.vercel.app)
 
-[![에이전트 팀 빌더 미리보기](assets/preview.png)](https://50agents.vercel.app)
+[![에이전트 팀 빌더 미리보기](assets/thumbnail/preview.png)](https://50agents.vercel.app)
 
 > 목적 한 줄을 받아, 검증된 50명 에이전트 팀원 중에서 팀을 설계하고 **실제로 돌려** 검토 통과본까지 만들어 내는 Claude Code 스킬입니다.
 
