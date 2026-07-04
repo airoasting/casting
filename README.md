@@ -4,12 +4,16 @@
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Verified-d2691e)
-![Recipes](https://img.shields.io/badge/Recipes-28%20Harnesses-d2691e)
 ![Mode](https://img.shields.io/badge/Mode-Agent%20Teams-2ea44f)
 ![Native](https://img.shields.io/badge/Native-Claude%20Code-8957e6)
 ![Also on](https://img.shields.io/badge/Also%20on-ChatGPT-555555)
+[![Live](https://img.shields.io/badge/Live-50agents.vercel.app-FE90E8)](https://50agents.vercel.app)
+
+[![에이전트 팀 빌더 미리보기](assets/preview.png)](https://50agents.vercel.app)
 
 > 목적 한 줄을 받아, 검증된 50명 에이전트 팀원 중에서 팀을 설계하고 **실제로 돌려** 검토 통과본까지 만들어 내는 Claude Code 스킬입니다.
+
+**라이브 데모**: [50agents.vercel.app](https://50agents.vercel.app) — 50명 팀원 카탈로그와 팀 빌더를 브라우저에서 바로 볼 수 있습니다.
 
 `AI ROASTING`이 로스팅(5색 다관점 채점)으로 검증한 50개 역할 프롬프트와 28개 검증된 팀 레시피를 기반으로, 사용자가 "무엇을 만들지(목적)"만 말하면 팀장(오케스트레이터)이 "누가 어떤 순서로 하는지"를 정하고 끝까지 진행합니다.
 
