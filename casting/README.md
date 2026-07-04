@@ -1,4 +1,4 @@
-# Roasting · 에이전트 팀 빌더 (실행 엔진)
+# Casting · 에이전트 팀 빌더 (실행 엔진)
 
 ![Version](https://img.shields.io/badge/Version-1.0.0-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
@@ -27,7 +27,7 @@
 
 ```bash
 # 프로젝트의 .claude/skills/ 아래로 복사
-cp -r roasting <your-project>/.claude/skills/roasting
+cp -r casting <your-project>/.claude/skills/casting
 ```
 
 Claude Code를 재시작하면 스킬이 로드된다.
@@ -35,7 +35,7 @@ Claude Code를 재시작하면 스킬이 로드된다.
 ## 사용법
 
 ```
-/roasting 경쟁사 3곳을 분석해서 이사회용 보고서 만들어줘
+/casting 경쟁사 3곳을 분석해서 이사회용 보고서 만들어줘
 ```
 
 또는 "팀 짜줘", "이거 팀으로 해줘", 혹은 보고서·분석·발표자료·제안서·재무검토·회의정리 같은 결과물을 "만들어 달라"고 하면 발동한다. 어떤 팀원이 필요한지 몰라도 목적만 주면 된다.
@@ -97,7 +97,7 @@ ChatGPT엔 서브에이전트가 없어 실행은 **단일 모델 순차 모드*
 ## 구조
 
 ```
-roasting/
+casting/
 ├── SKILL.md                       # 트리거 · 설계 알고리즘 · 실행 프로토콜 · 9.5 게이트
 ├── README.md                      # 이 문서
 ├── LICENSE                        # Apache License 2.0

@@ -1,4 +1,4 @@
-# Roasting · 에이전트 팀 빌더 (ChatGPT Custom GPT Instructions)
+# Casting · 에이전트 팀 빌더 (ChatGPT Custom GPT Instructions)
 
 이 글 전체를 Custom GPT의 "Instructions" 칸에 붙여 넣는다. 4개 지식 파일(아래 "지식 파일")을 Knowledge로 업로드하고, Web Browsing을 켠다. 셋업은 `SETUP.md` 참고.
 
