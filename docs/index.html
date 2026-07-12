@@ -371,6 +371,7 @@ h1.hero-h em::after{background:var(--rust);height:.2em;bottom:.02em}
 .fpill.active{background:var(--rust);color:#0a0a0a;border-color:var(--rust)}
 .fp-label{flex:1 1 auto;min-width:0;overflow:hidden;white-space:normal;word-break:keep-all;line-height:1.15;text-align:left}
 .fpill.fp-comm .fp-label{font-size:9px;line-height:1.12}
+.fpill.fp-long .fp-label{font-size:11px}
 .fp-count{background:var(--bg2);color:var(--muted);min-width:20px;padding:2px 5px;flex:0 0 auto}
 .fpill:hover .fp-count{background:rgba(255,192,0,.22);color:var(--rust-d)}
 .fpill.active .fp-count{background:rgba(0,0,0,.2);color:#0a0a0a}
@@ -1424,7 +1425,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
   allPill.onclick=function(){activeSec=-1;syncFilters();renderGrid();scrollToCards();};
   filtersEl.appendChild(allPill);
   SECTIONS.forEach(function(s,i){
-    var b=document.createElement("button"); b.className="fpill"+(SECTIONS[i].indexOf("커뮤니케이션")>=0?" fp-comm":""); b.innerHTML=fpHTML(SECLBL[i],secCount(i));
+    var b=document.createElement("button"); b.className="fpill"+(SECTIONS[i].indexOf("커뮤니케이션")>=0?" fp-comm":"")+(/콘텐츠제작|운영자동화/.test(SECTIONS[i])?" fp-long":""); b.innerHTML=fpHTML(SECLBL[i],secCount(i));
     b.onclick=function(){activeSec=i;syncFilters();renderGrid();scrollToCards();};
     filtersEl.appendChild(b);
   });
