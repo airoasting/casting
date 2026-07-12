@@ -1,0 +1,26 @@
+# OS 잡파일
+.DS_Store
+**/.DS_Store
+
+# 로컬 Claude 설정 · 스킬 설치본
+.claude/
+
+# 내부 작업·평가·백업 (공개 대상 아님)
+_workspace/
+casting-workspace/
+
+# 프로젝트 운영 문서 (내부용, 공개 스킬 구성물 아님)
+MEMORY.md
+CLAUDE.md
+
+# 옛 B2B 개념 가이드 (폐기된 초기 방향, 공개 대상 아님)
+guides/
+
+# 버전 이력 + 빌드 동기 사본 (내부용, 배포본은 docs/index.html)
+output/
+
+# 캐릭터 이미지 백업 · 원본 시트 · 슬라이스 · 스테이징 (사이트는 docs/assets/agents/agent-*.png만 사용)
+docs/assets/agents/agent_pool/
+docs/assets/agents/image/
+docs/assets/agents/image1/
+docs/assets/agents/cast/
