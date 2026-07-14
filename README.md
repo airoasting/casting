@@ -202,7 +202,7 @@ ChatGPT엔 서브에이전트가 없어 실행은 **단일 모델 순차 모드*
 | [AI ROASTING 블로그](https://airoasting-blog.vercel.app/) | 글로벌 리서치 인사이트 | 리서치·트렌드·마켓 |
 | [Hound](https://github.com/airoasting/hound) | 16개 채널 끈질긴 다채널 검색 | 리서치·팩트체크·마켓·경쟁분석·출처검증 |
 | [스킬 라이브러리](https://airoasting-skill.vercel.app/) | 엄선된 실무 AI 스킬 | 자동화 설계자·프로세스 |
-| `dart` 스킬 (`/dart`) | 상장사 DART 공시 재무 데이터 조회 → 인터랙티브 애널리스트 HTML 리포트(13인 투자자 평가) | 재무 분석가·IR·투자자 리포트·회계사·사업 타당성 |
+| [`dart` 스킬 (`/dart`)](https://github.com/airoasting/dart) | 상장사 DART 공시 재무 데이터 조회 → 인터랙티브 애널리스트 HTML 리포트(13인 투자자 평가) | 재무 분석가·IR·투자자 리포트·회계사·사업 타당성 |
 
 ## 구조
 
