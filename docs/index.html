@@ -1410,6 +1410,8 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
   })();
 
   var activeSec=-1, query="";
+  var SECPAL=['#FE90E8','#C0F7FE','#99E885','#F7CB46','#FFDC8B','#C9A7FF','#6FE3CA','#FFC178','#FF9F9F','#A7D8FF'];
+  var ALLCOL='#FFDC8B'; // '전체' 선택 시 색(하단 pill과 동일)
   var filtersEl=$("#filters");
   function fpHTML(label,count){return '<span class="fp-label">'+label+'</span><span class="fp-count">'+count+'</span>';}
   function secCount(i){return A.filter(function(a){return a[3]===i;}).length;}
@@ -1429,11 +1431,15 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
     b.onclick=function(){activeSec=i;syncFilters();renderGrid();scrollToCards();};
     filtersEl.appendChild(b);
   });
-  function syncFilters(){[].forEach.call(filtersEl.children,function(c,i){c.classList.toggle("active",(i-1)===activeSec || (i===0&&activeSec===-1));});}
+  function syncFilters(){[].forEach.call(filtersEl.children,function(c,i){
+    var on=(i-1)===activeSec || (i===0&&activeSec===-1);
+    c.classList.toggle("active",on);
+    if(on){c.style.setProperty('background',(i===0?ALLCOL:SECPAL[(i-1)%SECPAL.length]),'important');}
+    else{c.style.removeProperty('background');}
+  });}
   $("#searchInput").addEventListener("input",function(e){query=e.target.value.trim().toLowerCase();renderGrid();});
   function renderGrid(){
     var grid=$("#grid"); grid.innerHTML="";
-    var SECPAL=['#FE90E8','#C0F7FE','#99E885','#F7CB46','#FFDC8B','#C9A7FF','#6FE3CA','#FFC178','#FF9F9F','#A7D8FF'];
     var list=A.filter(function(a){
       if(activeSec>=0 && a[3]!==activeSec) return false;
       if(query){var hay=(a[1]+" "+a[2]+" "+a[5]).toLowerCase();return hay.indexOf(query)>=0;}
@@ -1444,7 +1450,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
     if(rh){
       var rn=activeSec===-1?"전체 팀원":SECTIONS[activeSec];
       var rc=query?list.length:(activeSec===-1?A.length:secCount(activeSec));
-      var rcol=activeSec===-1?'#FFDC8B':SECPAL[activeSec%SECPAL.length];
+      var rcol=activeSec===-1?ALLCOL:SECPAL[activeSec%SECPAL.length];
       rh.innerHTML='<span class="cat-result-pill" style="background:'+rcol+'">'+rn+'<b>'+rc+'명</b></span>';
     }
     list.forEach(function(a,i){
@@ -1643,6 +1649,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
     bw.innerHTML=w(mainTxt,0)+(small?"<small>"+w(smallTxt,mainTxt.length)+"</small>":"");
   })();
 
+  syncFilters();
   renderGrid();
   (function(){
     var ls=document.getElementById("leadSpot");
