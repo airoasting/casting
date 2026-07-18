@@ -72,6 +72,7 @@
   .nav-links a{font-size:14px;color:var(--ink2);font-weight:500;transition:color .2s}
   .nav-links a:hover{color:var(--rust)}
   .nav-links a.active{color:var(--rust)}
+  .nav-gh{display:none}
   .menu-btn{display:none;width:40px;height:40px;border-radius:9px;border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer;align-items:center;justify-content:center}
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;border:none;cursor:pointer}
   .btn-primary{background:var(--ink);color:#f3eee3}
@@ -84,10 +85,12 @@
     .hero-sub.lead::first-letter{font-size:1em;float:none;margin:0;color:inherit;font-family:var(--sans);font-weight:inherit}}
   @media(max-width:760px){
     .menu-btn{display:flex}
+    #dlBtn{display:none}
     .nav-links{position:absolute;top:58px;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:var(--shadow-lg);display:none}
     .nav-links.open{display:flex}
     .nav-links a{padding:11px 12px;border-radius:9px;font-size:15px}
     .nav-links a:hover{background:var(--bg2)}
+    .nav-gh{display:block;margin-top:4px;border-top:1px solid var(--line);border-radius:0 0 9px 9px;color:var(--rust);font-weight:700}
   }
 
   /* HERO */
@@ -453,6 +456,7 @@ footer{background:#0a0a0a;color:#fff;border-top:2px solid var(--rust)}
 /* one-line brand + hover wave */
 .brand{position:relative}
 .brand small{display:inline;margin-left:9px;font-size:13px;font-weight:700;color:var(--ink2);letter-spacing:.1em;text-transform:uppercase;vertical-align:baseline}
+@media(max-width:760px){.brand small{display:none}}
 
 /* 단어 중간에 줄바꿈 안 되게 (한국어 어절 단위) */
 body{word-break:keep-all;overflow-wrap:break-word}
@@ -870,6 +874,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
         <a href="#lead">팀장</a>
         <a href="#how">팀 구성</a>
         <a href="#catalog">팀원 50명</a>
+        <a href="https://github.com/airoasting/casting" target="_blank" rel="noopener" class="nav-gh">GitHub ↗</a>
       </nav>
       <a href="https://github.com/airoasting/casting" target="_blank" rel="noopener" class="btn btn-primary" id="dlBtn"><svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub<svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
       <button class="menu-btn" id="menuBtn" aria-label="메뉴" aria-expanded="false">
