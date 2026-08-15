@@ -12,7 +12,7 @@
 
 [![Agent Team Builder preview](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
 
-Say what you want in one line and it picks a team from the 50 members. It then **actually runs that team** and hands back work that passed review.
+Tell it what you want and the orchestrating team lead picks the agents it needs from the 50, assembles a team, then **actually runs that team** and produces work that passed review.
 
 **Live demo**: [50agents.airoasting.com](https://50agents.airoasting.com). Browse the 50-member catalog and the team builder right in the browser.
 
