@@ -214,7 +214,7 @@ cp -r casting/{SKILL.md,README.md,LICENSE,NOTICE,references,platforms,scripts} ~
 | 도구 | 용도 | 받는 팀원 |
 |---|---|---|
 | [전략 도구 갤러리](https://airoasting-strategy.vercel.app/) | 70개 컨설팅 프레임워크 | 경영전략·신규사업·사업 타당성 |
-| [5color](https://5color.vercel.app/) | 5인 페르소나 검토 지침 생성 | 문서·품질 검수·비판적 검토·교정 |
+| [5color](https://5color.airoasting.com) | 5인 페르소나 검토 지침 생성 | 문서·품질 검수·비판적 검토·교정 |
 | [슬라이드 라이브러리](https://airoasting-slide.vercel.app/) | 35개 HTML 슬라이드 템플릿 | 슬라이드 디자인·제안서 |
 | [AI ROASTING 블로그](https://airoasting-blog.vercel.app/) | 글로벌 리서치 인사이트 | 리서치·트렌드·마켓 |
 | [Hound](https://github.com/airoasting/hound) | 16개 채널 끈질긴 다채널 검색 | 리서치·팩트체크·마켓·경쟁분석·출처검증 |

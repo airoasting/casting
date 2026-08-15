@@ -214,7 +214,7 @@ Some members can draw on tools AI ROASTING built, matched to their role.
 | Tool | Purpose | Members who get it |
 |---|---|---|
 | [Strategy tool gallery](https://airoasting-strategy.vercel.app/) | 70 consulting frameworks | Management strategist, new business, feasibility |
-| [5color](https://5color.vercel.app/) | Generates five-persona review guidance | Document & quality review, devil's advocate, copy editor |
+| [5color](https://5color.airoasting.com) | Generates five-persona review guidance | Document & quality review, devil's advocate, copy editor |
 | [Slide library](https://airoasting-slide.vercel.app/) | 35 HTML slide templates | Slide design, proposals |
 | [AI ROASTING blog](https://airoasting-blog.vercel.app/) | Global research insight | Research, trends, market |
 | [Hound](https://github.com/airoasting/hound) | Relentless multi-channel search across 16 channels | Research, fact-check, market, competitor analysis, source verification |
