@@ -2,12 +2,12 @@
 
 **한국어** · [English](./README.en.md)
 
-![Version](https://img.shields.io/badge/Version-1.1.1-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.2-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
 ![Mode](https://img.shields.io/badge/Mode-Agent%20Teams-2ea44f)
-![Also on](https://img.shields.io/badge/Also%20on-ChatGPT-555555)
+![Also on](https://img.shields.io/badge/Also%20on-Codex-555555)
 [![Live](https://img.shields.io/badge/Live-50agents.airoasting.com-FF6FB5)](https://50agents.airoasting.com)
 
 [![에이전트 팀 빌더 미리보기](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
@@ -40,7 +40,7 @@ Casting은 그 일을 나눕니다. 팀원마다 다른 에이전트가 붙고, 
 - **레시피 28개**. 팀원을 handoff로 이어 붙인 팀입니다. 리서치 보고서, 시장 분석, 재무 리뷰, 발표자료, 전략, 회의 정리 같은 것들이 있습니다.
 - **라우터**. 목적을 받아 레시피를 고르거나 팀원을 새로 조합합니다. 여기가 이 스킬의 핵심입니다.
 
-**Claude Code에서 가장 제대로 작동합니다.** 팀원이 각각 독립 에이전트로 실행되고, 검토자도 별도로 올라옵니다. 그래서 9.5 게이트가 가장 엄격하게 걸립니다. ChatGPT에서도 쓸 수 있습니다. 이때는 한 모델이 역할을 순서대로 맡습니다.
+**Claude Code에서 가장 제대로 작동합니다.** 팀원이 각각 독립 에이전트로 실행되고, 검토자도 별도로 올라옵니다. 그래서 9.5 게이트가 가장 엄격하게 걸립니다. Codex CLI에도 같은 파일을 설치해 쓸 수 있습니다.
 
 ## 에이전트 팀원 50명
 
@@ -200,16 +200,16 @@ _workspace/
 
 실행이 끝나도 팀이 사라지지 않습니다. 나중에 다시 열어 보거나 그대로 재사용할 수 있습니다.
 
-## ChatGPT에서 쓰기 (호환 모드)
+## Codex에서 쓰기
 
-기본은 Claude Code지만 **ChatGPT(Custom GPT)** 에서도 같은 동작을 그대로 쓸 수 있습니다. 셋업은 `platforms/chatgpt/`에 있습니다.
+이 스킬은 SKILL.md 표준을 따릅니다. 그래서 같은 파일을 Codex CLI에 그대로 설치해 쓸 수 있습니다. 자세한 안내는 `platforms/codex/SETUP.md`에 있습니다.
 
-- `platforms/chatgpt/INSTRUCTIONS.md`. Custom GPT의 Instructions 칸에 붙여 넣을 본문입니다.
-- `platforms/chatgpt/SETUP.md`. 5분이면 끝나는 셋업 안내입니다. Instructions를 붙여 넣고, `references/` 4개를 Knowledge로 올리고, 브라우징을 켜면 됩니다.
+```bash
+mkdir -p ~/.codex/skills/casting
+cp -r casting/{SKILL.md,README.md,LICENSE,NOTICE,references,platforms,scripts} ~/.codex/skills/casting/
+```
 
-Custom GPT 빌더에는 서브에이전트가 없습니다. 그래서 한 모델이 역할을 순서대로 수행하고, 게이트는 처음 보듯 다시 읽는 방식으로 작동합니다. 팀원 50명과 레시피 28개, 9.5 게이트는 그대로입니다.
-
-GPT-5.6부터 ChatGPT Work와 Codex는 서브에이전트를 지원합니다. 여러 에이전트를 동시에 띄워 결과를 모으는 방식입니다. 그쪽에서 돌린다면 Claude Code와 비슷한 병렬 실행이 가능하지만, Custom GPT 빌더는 아직 대상이 아니라 이 셋업은 순차 모드를 기준으로 씁니다.
+새 세션을 시작하면 Codex가 SKILL.md의 설명을 읽고 필요할 때 불러옵니다. GPT-5.6부터 Codex는 서브에이전트를 지원하므로 팀원을 병렬로 띄울 수 있고, 파일시스템이 있어 `_workspace/` 배치도 그대로 동작합니다. 팀원 50명과 레시피 28개, 9.5 게이트는 같습니다.
 
 ## 장착 도구
 
@@ -244,9 +244,8 @@ scripts/
 ├── sync_refs.py           # references/ 를 사이트 정본에서 재생성 (--check 로 정합 검사)
 └── gen_image.py           # 디자인본부 역할의 실제 이미지 산출
 platforms/
-└── chatgpt/
-    ├── INSTRUCTIONS.md    # Custom GPT Instructions 본문
-    └── SETUP.md           # ChatGPT 셋업 가이드
+└── codex/
+    └── SETUP.md           # Codex 설치와 차이점 안내
 docs/                      # 데모 웹사이트 · 데이터 정본
 ├── index.html            # 팀 빌더 · 50명 카탈로그 · A 배열(역할 정본)
 └── assets/               # prompts.js(프롬프트 정본) · router.js(레시피 정본) · agents · logos
@@ -254,13 +253,13 @@ docs/                      # 데모 웹사이트 · 데이터 정본
 
 ## 변경 이력
 
-**v1.1.1 (2026-08-15)**
+**v1.2 (2026-08-15)**
 역할 번호를 한 곳에서만 관리합니다. `scripts/sync_refs.py`가 `references/`를 만듭니다. 팀원 이미지 고지와 외부 에셋 출처(`NOTICE`)를 넣었습니다. 영어판 README를 추가했습니다.
 
-**v1.1.0 (2026-07-12)**
+**v1.1 (2026-07-12)**
 회사처럼 10개 본부로 개편했습니다. 디자인·마케팅·법무·감사·인사 직군을 새로 넣었고, 디자인 역할은 실제 이미지를 냅니다.
 
-**v1.0.0 (2026-06-28)**
+**v1.0 (2026-06-28)**
 팀원 50명 구조를 설계해서 처음 배포했습니다.
 
 ## 라이선스

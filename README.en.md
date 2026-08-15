@@ -2,12 +2,12 @@
 
 [한국어](./README.md) · **English**
 
-![Version](https://img.shields.io/badge/Version-1.1.1-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.2-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
 ![Mode](https://img.shields.io/badge/Mode-Agent%20Teams-2ea44f)
-![Also on](https://img.shields.io/badge/Also%20on-ChatGPT-555555)
+![Also on](https://img.shields.io/badge/Also%20on-Codex-555555)
 [![Live](https://img.shields.io/badge/Live-50agents.airoasting.com-FF6FB5)](https://50agents.airoasting.com)
 
 [![Agent Team Builder preview](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
@@ -40,7 +40,7 @@ There are three layers.
 - **28 recipes**. Each is a team with the members already chained. Research reports, market analysis, financial review, decks, strategy, meeting wrap-ups, and more.
 - **The router**. It takes the goal, picks a recipe, or assembles a fresh set of members. This is the heart of the skill.
 
-**It works best in Claude Code.** Each member runs as its own agent and the reviewer comes up separately. That is where the 9.5 gate bites hardest. You can also use it in ChatGPT, where one model takes the roles in turn.
+**It works best in Claude Code.** Each member runs as its own agent and the reviewer comes up separately. That is where the 9.5 gate bites hardest. The same files also install into Codex CLI.
 
 ## The 50 agent members
 
@@ -200,16 +200,16 @@ _workspace/
 
 The team does not disappear after one use. You can open it again later or reuse it as it is.
 
-## Using it in ChatGPT (compatibility mode)
+## Using it in Codex
 
-Claude Code is the default, but the same behavior runs as a **ChatGPT Custom GPT**. Setup sits in `platforms/chatgpt/`.
+This skill follows the SKILL.md standard, so the same files install straight into Codex CLI. Full notes are in `platforms/codex/SETUP.md`.
 
-- `platforms/chatgpt/INSTRUCTIONS.md`. The body to paste into the Custom GPT Instructions field.
-- `platforms/chatgpt/SETUP.md`. A five-minute setup. Paste the instructions. Upload the four `references/` files as Knowledge. Turn browsing on.
+```bash
+mkdir -p ~/.codex/skills/casting
+cp -r casting/{SKILL.md,README.md,LICENSE,NOTICE,references,platforms,scripts} ~/.codex/skills/casting/
+```
 
-The Custom GPT builder has no subagents. So one model runs the roles in order, and the gate works as a cold second read. The 50 members, the 28 recipes and the 9.5 gate are the same.
-
-Since GPT-5.6, ChatGPT Work and Codex do support subagents, spawning several agents at once and collecting their results. Running it there gets you parallel execution close to Claude Code, but the Custom GPT builder is not covered yet, so this setup assumes sequential mode.
+Start a new session and Codex reads the description in SKILL.md, then loads the skill when a request matches. Since GPT-5.6, Codex supports subagents, so members run in parallel, and it has a filesystem, so the `_workspace/` layout works as it does in Claude Code. The 50 members, the 28 recipes and the 9.5 gate are the same.
 
 ## Equipped tools
 
@@ -244,9 +244,8 @@ scripts/
 ├── sync_refs.py           # regenerates references/ from the site source of truth (--check to verify)
 └── gen_image.py           # real image output for the design roles
 platforms/
-└── chatgpt/
-    ├── INSTRUCTIONS.md    # Custom GPT instructions body
-    └── SETUP.md           # ChatGPT setup guide
+└── codex/
+    └── SETUP.md           # Codex install notes and differences
 docs/                      # demo site · source of truth for data
 ├── index.html            # team builder · 50-member catalog · A array (role source of truth)
 └── assets/               # prompts.js (prompt source) · router.js (recipe source) · agents · logos
@@ -254,13 +253,13 @@ docs/                      # demo site · source of truth for data
 
 ## Changelog
 
-**v1.1.1 (2026-08-15)**
+**v1.2 (2026-08-15)**
 Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`. Added the generated-image disclosure, third-party credits (`NOTICE`), and this English README.
 
-**v1.1.0 (2026-07-12)**
+**v1.1 (2026-07-12)**
 Reorganized into 10 divisions, the way a company is. Added design, marketing, legal, audit and HR roles, and design roles now produce real images.
 
-**v1.0.0 (2026-06-28)**
+**v1.0 (2026-06-28)**
 Designed the 50-member structure and shipped the first release.
 
 ## License
