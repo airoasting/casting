@@ -12,7 +12,7 @@
 
 [![에이전트 팀 빌더 미리보기](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
 
-Claude Code 스킬입니다. 하고 싶은 일을 한 줄로 말하면 50명 가운데 필요한 사람을 골라 팀을 꾸리고, 그 팀을 **실제로 실행해** 검토를 통과한 결과물까지 냅니다.
+하고 싶은 일을 한 줄로 말하면 50명 가운데 필요한 사람을 골라 팀을 꾸리고, 그 팀을 **실제로 실행해** 검토를 통과한 결과물까지 냅니다.
 
 **라이브 데모**: [50agents.airoasting.com](https://50agents.airoasting.com). 50명 카탈로그와 팀 빌더를 브라우저에서 바로 봅니다.
 
