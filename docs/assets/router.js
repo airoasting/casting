@@ -1,14 +1,14 @@
 /* 에이전트 팀 빌더 · 라우터 데이터 (이 파일이 레시피 정본입니다)
- * 부품(50, prompts.js + index.html 의 A 배열)을 엮은 "하네스(팀 레시피)" 정의.
+ * 에이전트 팀원(50, prompts.js + index.html 의 A 배열)을 엮은 "하네스(팀 레시피)" 정의.
  * 내용 IP는 여기서 수정합니다. 렌더 로직은 index.html 인라인에 있습니다.
  * 고친 뒤에는 `python3 scripts/sync_refs.py` 로 references/harnesses.md 를 다시 생성합니다.
  * 동기 <script src>로 로드(file:// 안전). 전역 HARNESS/HARNESS_CATS/MODIFIERS 노출.
- * 부품 id는 A 배열과 동일: 리서치 6~11 / 마케팅 12~18 / 디자인 19~23 / 콘텐츠제작 24~29 /
+ * 팀원 id는 A 배열과 동일: 리서치 6~11 / 마케팅 12~18 / 디자인 19~23 / 콘텐츠제작 24~29 /
  * 커뮤니케이션PR 30~34 / 재무 35~40 / 인사 41~43 / 법무감사 44~47 / 운영자동화 48~50 / 전략 1~5.
  */
 var HARNESS_CATS = ["리서치·인텔리전스", "재무·숫자", "전략·기획", "문서·커뮤니케이션", "생산성·운영"];
 
-/* 토글(모디파이어): 켜면 팀에 부품을 끼워 넣습니다.
+/* 토글(모디파이어): 켜면 팀에 팀원을 끼워 넣습니다.
  * pos: afterFirst | afterSecond | beforeReview. deep은 하네스별 deepAdd 사용. */
 var MODIFIERS = {
   fact:  { label: "사실검증",   add: [7],  pos: "afterFirst",   io: { 7: "자료 → 사실·출처 검증" } },
@@ -245,7 +245,7 @@ var HARNESS = [
 ];
 
 /* 다이내믹 조합: 위 레시피 중 맞는 게 없을 때, 목적에서 즉석으로 팀을 조립한다.
- * 부품 카탈로그(A 배열)는 빌더 쪽에 있으므로, 여기서는 id만 골라 하네스 형태 객체를 반환한다.
+ * 팀원 카탈로그(A 배열)는 빌더 쪽에 있으므로, 여기서는 id만 골라 하네스 형태 객체를 반환한다.
  * 반환값은 HARNESS 항목과 같은 스키마라 빌더의 렌더·모달이 그대로 처리한다. */
 function composeTeam(goal){
   var g=(goal||"").toLowerCase();
