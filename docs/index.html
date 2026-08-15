@@ -1353,7 +1353,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
     if(ranked.length){
       ranked.forEach(function(x){box.appendChild(recoCard(x.h));});
     } else if(typeof composeTeam==="function"){
-      // 매칭되는 레시피가 없으면 목적에 맞춰 즉석 조립한 맞춤 팀을 제안한다(어떤 목적이든 팀이 나온다).
+      // 매칭되는 팀 구성이 없으면 목적에 맞춰 즉석 조립한 맞춤 팀을 제안한다(어떤 목적이든 팀이 나온다).
       var ct=composeTeam(goal);
       var card=recoCard(ct); card.classList.add("tb-reco--compose");
       box.appendChild(card);

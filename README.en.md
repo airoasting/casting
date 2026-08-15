@@ -22,14 +22,14 @@ Even one report passes through several hands. One person gathers the material, a
 
 Casting splits the work. Each member is a different agent, and the reviewer is someone who did not produce the deliverable. You only say what you want made. The team lead decides who does it and in what order, then carries it to the end.
 
-Inside are 50 role prompts and 28 team recipes.
+Inside are 50 role prompts and 28 prebuilt teams.
 
 ## How it runs
 
 | Step | What happens |
 |---|---|
 | ① Read the goal | What gets made, who it is for, whether the material exists. If it does not, it asks first. |
-| ② Design the team | It picks a recipe or assembles fresh members. The same input gives the same team. |
+| ② Design the team | It picks a prebuilt team or assembles fresh members. The same input gives the same team. |
 | ③ Show the team | You see who does what, in what order, before anything runs. |
 | ④ Execute | Each member comes up as its own agent. Steps that do not touch each other run at once. |
 | ⑤ Review | The reviewer looks for defects first. Below 9.5, the work goes back one step. |
@@ -37,16 +37,14 @@ Inside are 50 role prompts and 28 team recipes.
 There are three layers.
 
 - **50 agent members**. Each is a system prompt for one role.
-- **28 recipes**. Each is a team with the members already chained. Research reports, market analysis, financial review, decks, strategy, meeting wrap-ups, and more.
-- **The router**. It takes the goal, picks a recipe, or assembles a fresh set of members. This is the heart of the skill.
+- **28 prebuilt teams**. Each has its members already chained. Research reports, market analysis, financial review, decks, strategy, meeting wrap-ups, and more.
+- **The router**. It takes the goal, picks a prebuilt team, or assembles a fresh set of members. This is the heart of the skill.
 
 **It works best in Claude Code.** Each member runs as its own agent and the reviewer comes up separately. That is where the 9.5 gate bites hardest. The same files also install into Codex CLI.
 
 ## The 50 agent members
 
 Teams are drawn from the 50 roles below. They are split into **10 divisions**, the way a company is, and the numbers follow the division order.
-
-> The faces on the site and in this document are **fictional people made with ChatGPT**. They are not real people.
 
 ### 1. Strategy Office
 | # | Role | Korean | What they do |
@@ -140,8 +138,6 @@ Teams are drawn from the 50 roles below. They are split into **10 divisions**, t
 | 49 | Automation Architect | 자동화 설계자 | Automates repetitive work and reporting |
 | 50 | Work & Schedule Orchestrator | 업무·일정 조율가 | Coordinates schedules, tasks and mail |
 
-> The team lead (orchestrator) is not one of the 50. It picks the members, sets the order, and runs execution and review.
-
 ## Install
 
 Clone the repository and copy only the skill files into your Claude Code skills folder. The skill files sit at the repository root. The demo site sits in `docs/`.
@@ -209,7 +205,7 @@ mkdir -p ~/.codex/skills/casting
 cp -r casting/{SKILL.md,README.md,LICENSE,NOTICE,references,platforms,scripts} ~/.codex/skills/casting/
 ```
 
-Start a new session and Codex reads the description in SKILL.md, then loads the skill when a request matches. Since GPT-5.6, Codex supports subagents, so members run in parallel, and it has a filesystem, so the `_workspace/` layout works as it does in Claude Code. The 50 members, the 28 recipes and the 9.5 gate are the same.
+Start a new session and Codex reads the description in SKILL.md, then loads the skill when a request matches. Since GPT-5.6, Codex supports subagents, so members run in parallel, and it has a filesystem, so the `_workspace/` layout works as it does in Claude Code. The 50 members, the 28 prebuilt teams and the 9.5 gate are the same.
 
 ## Equipped tools
 
@@ -237,7 +233,7 @@ LICENSE                    # Apache License 2.0
 NOTICE                     # third-party fonts and icons, quotation source, generated-image disclosure
 references/                # generated from docs/assets by scripts/sync_refs.py (do not hand-edit)
 ├── catalog.md             # the 50-member selection table
-├── harnesses.md           # 28 recipes + router decision ladder + toggles
+├── harnesses.md           # 28 prebuilt teams + router decision ladder + toggles
 ├── agent-prompts.md       # full system prompts for all 50 (selected by id range)
 └── execution-modes.md     # the three execution modes · real tool-call syntax · reviewer template
 scripts/
@@ -248,7 +244,7 @@ platforms/
     └── SETUP.md           # Codex install notes and differences
 docs/                      # demo site · source of truth for data
 ├── index.html            # team builder · 50-member catalog · A array (role source of truth)
-└── assets/               # prompts.js (prompt source) · router.js (recipe source) · agents · logos
+└── assets/               # prompts.js (prompt source) · router.js (team source) · agents · logos
 ```
 
 ## Changelog

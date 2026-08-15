@@ -4,12 +4,12 @@
 정본은 하나다.
   docs/index.html   의 A 배열      = 50역할 id·직책·본부·설명
   docs/assets/prompts.js 의 PROMPTS = 50역할 + 팀장 시스템 프롬프트 전문
-  docs/assets/router.js  의 HARNESS = 28개 팀 레시피
+  docs/assets/router.js  의 HARNESS = 28개 팀 구성
 
 여기서 아래 세 파일을 생성한다.
   references/catalog.md
   references/agent-prompts.md
-  references/harnesses.md  (손으로 쓰는 머리 부분은 보존, "## 검증된 레시피" 아래만 생성)
+  references/harnesses.md  (손으로 쓰는 머리 부분은 보존, "## 팀 구성 목록" 아래만 생성)
 
 사용법
   python3 scripts/sync_refs.py           # 생성(덮어쓰기)
@@ -33,7 +33,7 @@ CATALOG = ROOT / "references" / "catalog.md"
 AGENT_PROMPTS = ROOT / "references" / "agent-prompts.md"
 HARNESSES = ROOT / "references" / "harnesses.md"
 
-RECIPE_HEADER = "## 검증된 레시피"
+RECIPE_HEADER = "## 팀 구성 목록"
 
 
 def run_js(source: str, expr: str):
@@ -176,7 +176,7 @@ def main():
         (HARNESSES, build_harnesses(roles, harness)),
     ]
 
-    # 레시피가 카탈로그에 없는 id를 부르는지 교차 검사
+    # 팀 구성이 카탈로그에 없는 id를 부르는지 교차 검사
     problems = []
     for h in harness["HARNESS"]:
         ids = [s["p"] for s in h["steps"]] + [h["review"]["p"]]
@@ -184,7 +184,7 @@ def main():
             ids.append(h["deepAdd"])
         for pid in ids:
             if pid not in roles:
-                problems.append("레시피 '%s' 가 없는 id %s 를 부릅니다." % (h["name"], pid))
+                problems.append("팀 구성 '%s' 가 없는 id %s 를 부릅니다." % (h["name"], pid))
     for name, mod in harness["MODS"].items():
         add = mod.get("add")
         if isinstance(add, list):
