@@ -615,6 +615,11 @@ header.hdr-hidden{transform:translateY(-100%)}
 /* 캐릭터 영역 전체를 그레이(#EDEBEE)로: 카드 좌우·상단 끝까지 full-bleed, 이미지 중앙 정렬.
    구분선은 박스 하단 보더로 직접 그려 이미지 하단과 100% 맞닿게 함(여백 불가) */
 .agent-av-box{background:#EDEBEE;margin:-20px -20px 16px;display:flex;justify-content:center;align-items:flex-end;overflow:hidden;border-bottom:3px solid #000}
+/* 팀원 사진: 평소 흑백, 마우스를 올린 카드만 컬러. 터치 기기는 호버가 없으므로 그대로 컬러로 둔다 */
+@media (hover:hover){
+  .agent-av{filter:grayscale(1)!important;transition:filter .22s ease}
+  .agent:hover .agent-av{filter:grayscale(0)!important}
+}
 .agent-av-box .agent-av{margin:0}
 /* 기존 별도 구분선 제거(박스 보더로 대체) */
 .agent-divider{display:none!important}
