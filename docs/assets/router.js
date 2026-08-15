@@ -1,6 +1,7 @@
-/* 에이전트 팀 빌더 · 라우터 데이터 (정본: PLAN.md)
- * 부품(50, prompts.js/A 배열)을 엮은 "하네스(팀 레시피)" 정의.
+/* 에이전트 팀 빌더 · 라우터 데이터 (이 파일이 레시피 정본입니다)
+ * 부품(50, prompts.js + index.html 의 A 배열)을 엮은 "하네스(팀 레시피)" 정의.
  * 내용 IP는 여기서 수정합니다. 렌더 로직은 index.html 인라인에 있습니다.
+ * 고친 뒤에는 `python3 scripts/sync_refs.py` 로 references/harnesses.md 를 다시 생성합니다.
  * 동기 <script src>로 로드(file:// 안전). 전역 HARNESS/HARNESS_CATS/MODIFIERS 노출.
  * 부품 id는 A 배열과 동일: 리서치 6~11 / 마케팅 12~18 / 디자인 19~23 / 콘텐츠제작 24~29 /
  * 커뮤니케이션PR 30~34 / 재무 35~40 / 인사 41~43 / 법무감사 44~47 / 운영자동화 48~50 / 전략 1~5.

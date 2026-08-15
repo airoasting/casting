@@ -1,0 +1,44 @@
+Casting · 에이전트 팀 빌더
+Copyright 2026 AI ROASTING (Jayden Kang)
+
+이 제품은 Apache License 2.0으로 배포됩니다. 전문은 LICENSE 파일을 보십시오.
+
+------------------------------------------------------------------------
+서드파티 에셋 (Third-party assets)
+------------------------------------------------------------------------
+
+데모 사이트(docs/index.html)는 아래 외부 리소스를 사용합니다.
+이 저장소는 아래 폰트 파일을 재배포하지 않고 CDN에서 불러옵니다.
+
+1. Pretendard
+   Copyright (c) 2021 Kil Hyung-jin (orioncactus)
+   SIL Open Font License 1.1
+   https://github.com/orioncactus/pretendard
+
+2. Space Grotesk
+   Copyright (c) 2018 Florian Karsten
+   SIL Open Font License 1.1
+   https://github.com/floriankarsten/space-grotesk
+
+3. 인터페이스 아이콘 (검색·복사·화살표·메뉴 등 인라인 SVG)
+   Lucide 아이콘 세트의 패스 데이터를 참고해 작성했습니다.
+   Lucide, ISC License, Copyright (c) for portions from Feather (c) 2013-2022 Cole Bemis
+   https://github.com/lucide-icons/lucide
+
+4. GitHub 마크, X 로고
+   각 회사의 상표입니다. 해당 서비스로 연결하는 링크 아이콘으로만 사용합니다.
+   GitHub, Inc. / X Corp.
+
+------------------------------------------------------------------------
+인용
+------------------------------------------------------------------------
+
+사이트에 실린 사티아 나델라(Microsoft CEO)의 문장은 2026년 6월 공개 에세이에서
+발췌해 한국어로 옮긴 것입니다. 원문 출처는 사이트의 "원문 보기" 링크에 있습니다.
+
+------------------------------------------------------------------------
+생성 이미지
+------------------------------------------------------------------------
+
+docs/assets/agents/ 의 팀원·팀장 이미지는 ChatGPT로 생성한 가상 인물입니다.
+실존 인물이 아니며, 특정 인물을 모델로 하지 않았습니다.

@@ -7,7 +7,7 @@
 <meta name="description" content="목표를 말하면 검증된 50명의 에이전트 팀원이 한 팀으로 꾸려집니다. AI ROASTING이 로스팅으로 벼린 팀원 카탈로그와 일하는 예시.">
 <meta name="theme-color" content="#bb4d28">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://50agents.vercel.app">
+<meta property="og:url" content="https://50agents.airoasting.com">
 <meta property="og:title" content="에이전트 팀 빌더 | AI ROASTING">
 <meta property="og:description" content="목표를 말하면 검증된 50명의 에이전트 팀원이 한 팀으로 꾸려집니다.">
 <link rel="icon" type="image/png" sizes="256x256" href="assets/logos/favicon-256.png">
@@ -489,13 +489,13 @@ body{word-break:keep-all;overflow-wrap:break-word}
    border, 8px offset black shadow, square corners, Space Grotesk mono.
    ============================================================ */
 :root{
-  --pink:#FE90E8; --blue:#C0F7FE; --green:#99E885; --yellow:#F7CB46; --cream:#FFDC8B;
+  --pink:#FF6FB5; --blue:#C0F7FE; --green:#99E885; --yellow:#F7CB46; --cream:#FFDC8B;
   --black:#000; --white:#fff; --offwhite:#FFFDF5;
   --nb-b:4px solid #000; --nb-b3:3px solid #000;
   --nb-sh:8px 8px 0 #000; --nb-sh-sm:4px 4px 0 #000;
   --mono:'Space Grotesk',ui-monospace,monospace;
   --bg:#FFFDF5; --bg2:#FFFDF5; --ink:#000; --ink2:#000; --muted:#000;
-  --rust:#FE90E8; --rust-d:#000; --gold:#F7CB46;
+  --rust:#FF6FB5; --rust-d:#000; --gold:#F7CB46;
   --card:#fff; --line:#000; --line2:#000; --shadow:8px 8px 0 #000; --shadow-lg:10px 10px 0 #000;
 }
 *,*::before,*::after{border-radius:0!important}
@@ -580,6 +580,7 @@ h1.hero-h em::after{height:.34em;bottom:0;background:var(--pink);opacity:1;z-ind
 .k-label{color:#000;font-weight:700}
 .k-rule{background:#000;height:3px}
 .sec-h{font-weight:900;letter-spacing:-.03em}
+.cat-note{margin-top:12px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:#000;background:var(--blue);border:var(--nb-b3);box-shadow:var(--nb-sh-sm);display:inline-block;padding:7px 12px}
 
 #how{background:var(--green)!important;color:#000;border-top:var(--nb-b);border-bottom:var(--nb-b)}
 #how .sec-h,#how .k-label,#how .sec-desc{color:#000!important}
@@ -957,6 +958,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
   <div class="wrap">
     <div class="kicker"><span class="k-num serif">03</span><span class="k-label">팀원 카탈로그</span><span class="k-rule"></span></div>
     <h2 class="sec-h">50명의 에이전트 팀원</h2>
+    <p class="cat-note">팀원 얼굴은 ChatGPT로 생성한 가상 인물입니다. 실존 인물이 아닙니다.</p>
 
     <div class="search">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -975,7 +977,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
   <div class="shift">
     <span class="qmark serif">&ldquo;</span>
     <h2>진짜 기회는 최고의 모델을 고르는 게 아니라, <span class="ar">휴먼 캐피탈</span>과 <span class="ar">토큰 캐피탈</span>이 함께 복리로 쌓이는 학습의 루프를 모델 위에 만드는 데 있습니다.</h2>
-    <div class="attr"><span class="attr-name">사티아 나델라, Microsoft CEO</span><a class="quote-x" href="https://x.com/satyanadella" target="_blank" rel="noopener" aria-label="원문 출처를 X에서 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>원문 보기</a></div>
+    <div class="attr"><span class="attr-name">사티아 나델라, Microsoft CEO · 2026년 6월 에세이에서 발췌, 한국어 번역</span><a class="quote-x" href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener" aria-label="나델라의 원문 게시물을 X에서 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>원문 보기</a></div>
     <div class="shift-grid">
       <div class="sg"><div class="n">50</div><div class="l">직무별 AI 팀원이 당신 조직의 일을 대신 맡습니다.</div></div>
       <div class="sg"><div class="n">10</div><div class="l">10개 본부·실에서 리서치부터 보고까지 담당합니다.</div></div>
@@ -1001,7 +1003,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 AI ROASTING. ALL RIGHTS RESERVED.</span>
+      <span>© 2026 AI ROASTING. ALL RIGHTS RESERVED. 팀원 이미지는 ChatGPT로 생성한 가상 인물입니다.</span>
       <span class="foot-credit">강정구 · JAYDEN KANG
         <a class="foot-soc" href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.74v20.52C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.74V1.74C24 .78 23.2 0 22.22 0z"/></svg></a>
         <a class="foot-soc" href="#" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.01 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.08 24 18.09 24 12.07z"/></svg></a>
@@ -1415,7 +1417,7 @@ footer .foot-col h4,footer .foot-bottom,footer .colophon{font-family:var(--sans)
   })();
 
   var activeSec=-1, query="";
-  var SECPAL=['#FE90E8','#C0F7FE','#99E885','#F7CB46','#FFDC8B','#C9A7FF','#6FE3CA','#FFC178','#FF9F9F','#A7D8FF'];
+  var SECPAL=['#FF6FB5','#C0F7FE','#99E885','#F7CB46','#FFDC8B','#C9A7FF','#6FE3CA','#FFC178','#FF9F9F','#A7D8FF'];
   var ALLCOL='#FFDC8B'; // '전체' 선택 시 색(하단 pill과 동일)
   var filtersEl=$("#filters");
   function fpHTML(label,count){return '<span class="fp-label">'+label+'</span><span class="fp-count">'+count+'</span>';}

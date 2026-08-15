@@ -1,37 +1,43 @@
 # Casting · 에이전트 팀 빌더 (실행 엔진)
 
-![Version](https://img.shields.io/badge/Version-1.1.0-2ea44f)
+**한국어** · [English](./README.en.md)
+
+![Version](https://img.shields.io/badge/Version-1.1.1-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Verified-d2691e)
 ![Mode](https://img.shields.io/badge/Mode-Agent%20Teams-2ea44f)
 ![Native](https://img.shields.io/badge/Native-Claude%20Code-8957e6)
 ![Also on](https://img.shields.io/badge/Also%20on-ChatGPT-555555)
-[![Live](https://img.shields.io/badge/Live-50agents.vercel.app-FE90E8)](https://50agents.vercel.app)
+[![Live](https://img.shields.io/badge/Live-50agents.airoasting.com-FF6FB5)](https://50agents.airoasting.com)
 
-[![에이전트 팀 빌더 미리보기](docs/assets/thumbnail/preview.png)](https://50agents.vercel.app)
+[![에이전트 팀 빌더 미리보기](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
 
-> 목적 한 줄을 받아, 검증된 50명 에이전트 팀원 중에서 팀을 설계하고 **실제로 돌려** 검토 통과본까지 만들어 내는 Claude Code 스킬입니다.
+> 하고 싶은 일을 한 줄로 말하면 50명 중에서 팀을 짭니다. 그 팀을 **실제로 돌려서** 검토를 통과한 결과물까지 냅니다. Claude Code 스킬입니다.
 >
-> **v1.1.0 (2026-07-12)** · 회사형 10개 본부로 개편. 디자인·마케팅·법무·감사·인사 직군 신설, 디자인은 실제 이미지 산출(gpt-image + OpenAI API).
+> **v1.1.1 (2026-08-15)** · 역할 번호를 한 곳에서만 관리합니다. `scripts/sync_refs.py`가 `references/`를 만듭니다. 팀원 이미지 고지와 외부 에셋 출처(`NOTICE`)를 넣었습니다.
+>
+> **v1.1.0 (2026-07-12)** · 회사처럼 10개 본부로 개편했습니다. 디자인·마케팅·법무·감사·인사 직군을 새로 넣었고, 디자인 역할은 실제 이미지를 냅니다.
 
-**라이브 데모**: [50agents.vercel.app](https://50agents.vercel.app) — 50명 팀원 카탈로그와 팀 빌더를 브라우저에서 바로 볼 수 있습니다.
+**라이브 데모**: [50agents.airoasting.com](https://50agents.airoasting.com). 50명 카탈로그와 팀 빌더를 브라우저에서 바로 봅니다.
 
-`AI ROASTING`이 로스팅(5색 다관점 채점)으로 검증한 50개 역할 프롬프트와 28개 검증된 팀 레시피를 기반으로, 사용자가 "무엇을 만들지(목적)"만 말하면 팀장(오케스트레이터)이 "누가 어떤 순서로 하는지"를 정하고 끝까지 진행합니다.
+AI ROASTING이 5색 다관점 채점으로 검증한 역할 프롬프트 50개와 팀 레시피 28개가 들어 있습니다. 사용자는 무엇을 만들지만 말합니다. 누가 어떤 순서로 할지는 팀장이 정하고 끝까지 끌고 갑니다.
 
-**기본(네이티브) 플랫폼은 Claude Code입니다.** 독립 에이전트로 팀을 돌리고 검토자도 진짜 독립이라 9.5 게이트가 가장 강하게 작동합니다. [ChatGPT는 호환 모드로도 쓸 수 있습니다](#chatgpt에서-쓰기)(단일 모델 순차 실행).
+**Claude Code에서 가장 잘 돕니다.** 팀원이 각각 독립 에이전트로 돌고 검토자도 따로 뜹니다. 그래서 9.5 게이트가 제일 세게 걸립니다. [ChatGPT에서도 쓸 수 있습니다](#chatgpt에서-쓰기). 이때는 한 모델이 역할을 순서대로 맡습니다.
 
 ## 무엇을 하나
 
 목적 입력 → ① 목적 파악 → ② 팀 설계 → ③ 팀 구조 제시 → ④ 실행 → ⑤ 검토(9.5 게이트) → 최종 결과.
 
-- **부품(Agent)** 50개 = 단일 역할 시스템 프롬프트. 전부 9.5+ 합격선으로 로스팅 검증.
-- **레시피(Harness)** 28개 = 부품을 handoff로 엮은 검증된 팀(리서치 보고서·시장 분석·재무 리뷰·발표자료·전략·회의 정리 등).
-- **라우터** = 목적 → 레시피 매칭 또는 부품 새 조합. 이것이 핵심 IP입니다.
+- **부품(Agent) 50개**. 역할 하나짜리 시스템 프롬프트입니다. 전부 9.5 합격선을 넘겼습니다.
+- **레시피(Harness) 28개**. 부품을 이어 붙인 팀입니다. 리서치 보고서, 시장 분석, 재무 리뷰, 발표자료, 전략, 회의 정리 같은 것들이 있습니다.
+- **라우터**. 목적을 받아 레시피를 고르거나 부품을 새로 조합합니다. 여기가 이 스킬의 핵심입니다.
 
 ## 팀원 50명 (부품 카탈로그)
 
-목적에 따라 아래 50개 역할 중에서 팀이 꾸려집니다. 회사형 **10개 본부**로 나뉩니다.
+목적에 따라 아래 50개 역할에서 팀을 뽑습니다. 회사처럼 **10개 본부**로 나눴고, 번호는 본부 순서를 따릅니다.
+
+> 사이트와 이 문서에 나오는 팀원 얼굴은 **ChatGPT로 만든 가상 인물**입니다. 실제 사람이 아닙니다.
 
 ### 1. 전략기획실
 | # | 직책 | English | 하는 일 |
@@ -71,7 +77,7 @@
 | 21 | 카드뉴스 제작자 | Card News Creator | SNS 카드뉴스를 만듭니다 |
 | 22 | 브랜드·비주얼 가디언 | Brand & Visual Guardian | 톤·아이덴티티와 비주얼을 지킵니다 |
 | 23 | 이미지 생성 | Image Generator | 필요한 이미지를 생성합니다 |
-> 디자인본부 5명은 gpt-image 스킬로 프롬프트를 만들고 OpenAI 이미지 API로 실제 이미지를 산출합니다(키 없으면 완성 프롬프트로 폴백).
+> 디자인본부 5명은 gpt-image로 프롬프트를 만들고 OpenAI 이미지 API로 실제 이미지 파일을 냅니다. API 키가 없으면 완성된 프롬프트만 줍니다.
 
 ### 5. 콘텐츠제작본부
 | # | 직책 | English | 하는 일 |
@@ -116,7 +122,7 @@
 | 45 | 감사인 | Auditor | 내부감사·준법·통제를 점검합니다 |
 | 46 | 문서·품질 검수 | Document & Quality Reviewer | 계약·문서·산출물을 검수합니다 |
 | 47 | 비판적 검토자 | Devil's Advocate | 결론을 반박해 약점을 찾습니다 |
-> 회계사·변호사·감사인·노무사는 실무 초안·1차 검토 보조이며 법률·세무·노무 자문이 아닙니다. 최종 판단은 자격 전문가 확인이 필요합니다.
+> 회계사·변호사·감사인·노무사는 초안과 1차 검토를 돕습니다. 법률·세무·노무 자문이 아닙니다. 최종 판단은 자격을 가진 전문가에게 확인하십시오.
 
 ### 10. 운영자동화본부
 | # | 직책 | English | 하는 일 |
@@ -125,20 +131,20 @@
 | 49 | 자동화 설계자 | Automation Architect | 반복 업무·리포트를 자동화합니다 |
 | 50 | 업무·일정 조율가 | Work & Schedule Orchestrator | 일정·할일·메일을 조율합니다 |
 
-> 팀장(오케스트레이터)은 이 50명과 별개입니다. 위 부품을 골라 순서를 정하고 실행·검토를 지휘하는 라우터 역할입니다.
+> 팀장(오케스트레이터)은 이 50명에 들어가지 않습니다. 부품을 고르고 순서를 정하고 실행과 검토를 지휘합니다.
 
 ## 설치
 
-이 저장소를 클론한 뒤, 스킬 파일을 Claude Code 스킬 폴더로 복사합니다(스킬 구성 파일은 저장소 루트에 있고, 에이전트 팀 빌더 데모 웹사이트는 `docs/`에 있으므로 스킬 구성 파일만 골라 복사합니다).
+저장소를 클론하고 스킬 파일만 Claude Code 스킬 폴더로 복사합니다. 스킬 파일은 저장소 루트에 있습니다. 데모 웹사이트는 `docs/`에 있습니다.
 
 ```bash
 git clone https://github.com/airoasting/casting.git
 # 모든 프로젝트에서 쓰려면 사용자 레벨(~/.claude/skills)
 mkdir -p ~/.claude/skills/casting
-cp -r casting/{SKILL.md,README.md,LICENSE,references,platforms} ~/.claude/skills/casting/
+cp -r casting/{SKILL.md,README.md,LICENSE,NOTICE,references,platforms,scripts} ~/.claude/skills/casting/
 ```
 
-특정 프로젝트에서만 쓰려면 `~/.claude/skills/casting` 대신 `<your-project>/.claude/skills/casting`으로 복사합니다. Claude Code를 재시작하면 스킬이 로드되고, `/casting`으로 발동합니다.
+프로젝트 하나에서만 쓰려면 `~/.claude/skills/casting` 대신 `<your-project>/.claude/skills/casting`에 복사합니다. Claude Code를 다시 켜면 `/casting`으로 부를 수 있습니다.
 
 ## 사용법
 
@@ -146,25 +152,25 @@ cp -r casting/{SKILL.md,README.md,LICENSE,references,platforms} ~/.claude/skills
 /casting 경쟁사 3곳을 분석해서 이사회용 보고서 만들어줘
 ```
 
-또는 "팀 짜줘", "이거 팀으로 해줘", 혹은 보고서·분석·발표자료·제안서·재무검토·회의정리 같은 결과물을 "만들어 달라"고 하면 발동합니다. 어떤 팀원이 필요한지 몰라도 목적만 주면 됩니다.
+"팀 짜줘", "이거 팀으로 해줘"라고 해도 되고, 보고서·분석·발표자료·제안서·재무검토·회의정리 같은 결과물을 만들어 달라고 해도 됩니다. 누가 필요한지는 몰라도 됩니다.
 
 ## 실행 모드 (티어드)
 
 쓸 수 있는 도구에 따라 위에서부터 고릅니다.
 
-1. **에이전트 팀**: `TeamCreate`/`SendMessage`/`TaskCreate` 가능 시. 팀원이 공유 작업목록으로 자체 조율.
-2. **서브에이전트**: `Agent` 도구만 있으면. 의존 단계는 파이프라인, 독립 단계는 병렬(fan-out). (기본·안정)
-3. **순차 역할극**: 에이전트 도구가 없으면 팀장이 직접 역할을 순서대로 수행. (폴백)
+1. **에이전트 팀**. `TeamCreate`·`SendMessage`·`TaskCreate`를 쓸 수 있을 때입니다. 팀원이 공유 작업목록으로 알아서 조율합니다.
+2. **서브에이전트**. `Agent` 도구만 있으면 됩니다. 이어지는 단계는 순서대로, 서로 상관없는 단계는 한꺼번에 돌립니다. 기본값입니다.
+3. **순차 역할극**. 에이전트 도구가 아예 없을 때만 씁니다. 팀장이 역할을 순서대로 맡습니다.
 
-핵심은 팀원이 **각자 독립 컨텍스트**라는 점입니다. 그래서 (a) 검토자가 진짜 독립이라 9.5 게이트가 자기채점이 아니고, (b) 독립 단계를 병렬로 돌립니다.
+중요한 건 팀원이 **각자 다른 맥락**을 갖는다는 점입니다. 그래서 검토자가 자기 글을 채점하지 않습니다. 상관없는 단계는 동시에 돌아갑니다.
 
 ## 품질 게이트
 
-검토자는 산출물을 만들지 않은 **독립 에이전트**로, 사용자의 원래 목적·자료에 대고 구체적 결함부터 찾습니다. 결함이 하나라도 있으면 9.5를 주지 않고, 그 단계로 한 번 되돌려 보강한 뒤 통과시킵니다. (실측 테스트에서 게이트가 첫 통과를 거부하고 6.5로 불합격 처리한 뒤 보강을 요구했습니다. 통과를 거저 주지 않는, 실제로 떨어지는 게이트입니다.)
+검토자는 그 산출물을 만들지 않은 **별도 에이전트**입니다. 사용자의 원래 목적과 자료에 대고 결함부터 찾습니다. 결함이 하나라도 있으면 9.5를 주지 않고 그 단계로 돌려보냅니다. 한 번 보강한 뒤에 다시 봅니다. 실제 테스트에서 게이트는 첫 산출물을 6.5로 떨어뜨리고 다시 만들라고 했습니다.
 
 ## 실행 결과 (워크스페이스)
 
-Claude Code에서 실행하면, 그 실행의 팀과 산출물이 파일로 남습니다.
+Claude Code에서 돌리면 그 실행의 팀과 산출물이 파일로 남습니다.
 
 ```
 _workspace/
@@ -179,20 +185,20 @@ _workspace/
     └── output/              # 단계별 산출물 + 최종결과.md
 ```
 
-팀이 일회성으로 사라지지 않고 자산으로 남아, 다시 보거나 재사용할 수 있습니다. (ChatGPT 호환 모드는 파일시스템이 없어 팀·산출물을 화면 인라인으로만 보여 줍니다.)
+팀이 한 번 쓰고 사라지지 않습니다. 나중에 다시 보거나 그대로 재사용합니다. ChatGPT 호환 모드는 파일시스템이 없어서 화면에만 보여 줍니다.
 
 ## ChatGPT에서 쓰기 (호환 모드)
 
-기본은 Claude Code지만, **ChatGPT(Custom GPT)** 로도 같은 동작을 쓸 수 있습니다. `platforms/chatgpt/`에 셋업이 있습니다.
+기본은 Claude Code지만 **ChatGPT(Custom GPT)** 로도 같은 동작을 씁니다. 셋업은 `platforms/chatgpt/`에 있습니다.
 
-- `platforms/chatgpt/INSTRUCTIONS.md` — Custom GPT "Instructions"에 붙여 넣을 본문
-- `platforms/chatgpt/SETUP.md` — 5분 셋업(Instructions 붙여넣기 + `references/` 4개를 Knowledge로 업로드 + 브라우징 켜기)
+- `platforms/chatgpt/INSTRUCTIONS.md`. Custom GPT의 Instructions 칸에 붙여 넣을 본문입니다.
+- `platforms/chatgpt/SETUP.md`. 5분 셋업 안내입니다. Instructions를 붙여 넣습니다. `references/` 4개를 Knowledge로 올립니다. 브라우징을 켭니다.
 
-ChatGPT엔 서브에이전트가 없어 실행은 **단일 모델 순차 모드**(스킬의 폴백 모드)로, 게이트는 "냉정 재독" 독립 검토로 동작합니다. 검증된 50 부품·28 레시피·9.5 게이트는 동일합니다.
+ChatGPT에는 서브에이전트가 없습니다. 그래서 한 모델이 순서대로 돌고, 게이트는 냉정하게 다시 읽는 방식으로 걸립니다. 50 부품과 28 레시피, 9.5 게이트는 같습니다.
 
 ## 장착 도구
 
-일부 팀원은 AI ROASTING 자사 도구를 역할별로 쥐고 있습니다.
+팀원 일부는 AI ROASTING이 만든 도구를 역할별로 들고 있습니다.
 
 | 도구 | 용도 | 받는 팀원 |
 |---|---|---|
@@ -206,26 +212,57 @@ ChatGPT엔 서브에이전트가 없어 실행은 **단일 모델 순차 모드*
 
 ## 구조
 
-저장소 루트에 스킬 구성 파일이 있고, 에이전트 팀 빌더 데모 웹사이트는 `docs/`(GitHub Pages)에 있습니다.
+스킬 파일은 저장소 루트에, 데모 웹사이트는 `docs/`(GitHub Pages)에 있습니다.
 
 ```
 SKILL.md                   # 트리거 · 라우터 결정 사다리 · 실행 프로토콜 · 9.5 게이트
-README.md                  # 이 문서
+README.md                  # 이 문서 (한국어)
+README.en.md               # 영어판
 LICENSE                    # Apache License 2.0
-references/
+NOTICE                     # 외부 폰트·아이콘 출처, 인용 출처, 생성 이미지 고지
+references/                # scripts/sync_refs.py 가 docs/assets 에서 생성 (직접 수정 금지)
 ├── catalog.md             # 50명 부품 표(선발용)
 ├── harnesses.md           # 28 레시피 + 라우터 결정 사다리 + 토글
 ├── agent-prompts.md       # 50명 전체 시스템 프롬프트(실행용, id 구간으로 선택)
 └── execution-modes.md     # 실행 모드 3종 · 실제 도구 호출 문법 · 검토자 템플릿
+scripts/
+├── sync_refs.py           # references/ 를 사이트 정본에서 재생성 (--check 로 정합 검사)
+└── gen_image.py           # 디자인본부 역할의 실제 이미지 산출
 platforms/
 └── chatgpt/
     ├── INSTRUCTIONS.md    # Custom GPT Instructions 본문
     └── SETUP.md           # ChatGPT 셋업 가이드
-docs/                      # GitHub Pages 데모 웹사이트
-├── index.html            # 팀 빌더 · 50명 카탈로그
-└── assets/               # prompts.js · router.js · agents · logos · thumbnail
+docs/                      # GitHub Pages 데모 웹사이트 · 데이터 정본
+├── index.html            # 팀 빌더 · 50명 카탈로그 · A 배열(역할 정본)
+└── assets/               # prompts.js(프롬프트 정본) · router.js(레시피 정본) · agents · logos
 ```
+
+## 데이터 정본과 동기화
+
+역할 번호가 문서마다 다르면 엉뚱한 사람이 팀에 들어옵니다. 그래서 한 곳만 정본으로 두고 나머지는 거기서 만듭니다.
+
+| 무엇 | 정본 |
+|---|---|
+| 50역할 번호·직책·본부·설명 | `docs/index.html`의 `A` 배열 |
+| 50역할 + 팀장 시스템 프롬프트 | `docs/assets/prompts.js`의 `PROMPTS` |
+| 28개 팀 레시피 | `docs/assets/router.js`의 `HARNESS` |
+
+`references/`의 catalog·agent-prompts·harnesses는 위 정본에서 만듭니다. 역할이나 번호, 레시피를 고칠 때는 `docs/assets`만 고치고 아래를 돌립니다.
+
+```bash
+python3 scripts/sync_refs.py
+```
+
+어긋난 곳만 보려면 이렇게 씁니다. 어긋나 있으면 종료 코드 1로 알려 줍니다.
+
+```bash
+python3 scripts/sync_refs.py --check
+```
+
+카드 이미지 `docs/assets/agents/agent-N.png`는 역할 번호에 묶여 있습니다. 번호를 바꾸면 이미지도 같이 옮깁니다.
 
 ## 라이선스
 
-Copyright 2026 AI ROASTING (Jayden Kang). [Apache License 2.0](./LICENSE) 하에 배포됩니다.
+Copyright 2026 AI ROASTING (Jayden Kang). [Apache License 2.0](./LICENSE)으로 배포합니다.
+
+외부 폰트와 아이콘, 인용 출처, 생성 이미지 고지는 [NOTICE](./NOTICE)에 적어 두었습니다.

@@ -11,7 +11,7 @@
    - **Instructions**: `INSTRUCTIONS.md`의 `---` 아래 본문 전체를 붙여 넣는다.
 3. **Knowledge** 에 아래 4개 파일을 업로드한다(repo `references/`에서 가져옴):
    - `catalog.md` — 50명 부품 표
-   - `harnesses.md` — 12 레시피 + 토글
+   - `harnesses.md` — 28 레시피 + 토글 + 라우터 결정 사다리
    - `agent-prompts.md` — 50명 전체 시스템 프롬프트(실행용)
    - `execution-modes.md` — 실행·검토 가이드
 4. **Capabilities**: **Web Search(브라우징)** 를 켠다. 리서치·팩트 단계가 실제 출처를 달 수 있게 하는 핵심이다. (Code Interpreter는 선택.)
