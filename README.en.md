@@ -250,7 +250,7 @@ docs/                      # demo site · source of truth for data
 ## Changelog
 
 **v1.2 (2026-08-15)**
-Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`. Added the generated-image disclosure, third-party credits (`NOTICE`), and this English README.
+Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`. Added the generated-image disclosure and third-party credits (`NOTICE`).
 
 **v1.1 (2026-07-12)**
 Reorganized into 10 divisions, the way a company is. Added design, marketing, legal, audit and HR roles, and design roles now produce real images.
