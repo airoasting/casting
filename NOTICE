@@ -20,13 +20,7 @@ Copyright 2026 AI ROASTING (Jayden Kang)
    SIL Open Font License 1.1
    https://github.com/floriankarsten/space-grotesk
 
-3. 인터페이스 아이콘 (인라인 SVG 7종: 검색·닫기·메뉴·화살표 2종·복사·다운로드)
-   대부분 직접 그린 단순 도형입니다. 이 가운데 검색과 닫기 아이콘의 패스 데이터는
-   Lucide의 것과 같고, 복사 아이콘은 그 원본인 Feather의 구성을 따릅니다.
-   Lucide, ISC License. Feather 유래 부분 Copyright (c) 2013-2022 Cole Bemis
-   https://github.com/lucide-icons/lucide
-
-4. GitHub·X·LinkedIn·Facebook 마크
+3. GitHub·X·LinkedIn·Facebook 마크
    각 회사의 상표입니다. 해당 서비스로 연결하는 링크 아이콘으로만 사용합니다.
    GitHub, Inc. / X Corp. / LinkedIn Corporation / Meta Platforms, Inc.
 
