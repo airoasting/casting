@@ -212,7 +212,7 @@ ChatGPT에는 서브에이전트가 없습니다. 그래서 한 모델이 순서
 
 ## 구조
 
-스킬 파일은 저장소 루트에, 데모 웹사이트는 `docs/`(GitHub Pages)에 있습니다.
+스킬 파일은 저장소 루트에, 데모 웹사이트는 `docs/`에 있습니다. `docs/`는 GitHub Pages로도 열리고, 라이브 도메인 [50agents.airoasting.com](https://50agents.airoasting.com)으로도 열립니다.
 
 ```
 SKILL.md                   # 트리거 · 라우터 결정 사다리 · 실행 프로토콜 · 9.5 게이트

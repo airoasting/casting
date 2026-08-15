@@ -212,7 +212,7 @@ Some members carry tools AI ROASTING built, one per role.
 
 ## Layout
 
-Skill files sit at the repository root, and the demo site sits in `docs/` (GitHub Pages).
+Skill files sit at the repository root, and the demo site sits in `docs/`. That folder is served both by GitHub Pages and at the live domain [50agents.airoasting.com](https://50agents.airoasting.com).
 
 ```
 SKILL.md                   # triggers · router decision ladder · execution protocol · 9.5 gate
