@@ -164,6 +164,54 @@ def build_harnesses(roles, harness):
     return head + build_harness_section(roles, harness)
 
 
+INLINE_ID_TARGETS = [
+    "SKILL.md",
+    "references/harnesses.md",
+    "references/execution-modes.md",
+    "platforms/codex/SETUP.md",
+    "README.md",
+]
+
+INLINE_ID_PATTERN = re.compile(r"([가-힣A-Za-z·\s]{2,14}?)\((\d{1,2})\)")
+
+
+def check_inline_ids(roles):
+    """본문에 손으로 적은 '직책(id)' 표기가 카탈로그와 맞는지 본다.
+
+    생성되는 세 파일과 달리 SKILL.md·harnesses.md 머리 부분은 사람이 직접 쓴다.
+    여기서 번호가 어긋나면 라우터가 엉뚱한 팀원을 뽑는데, 파일만 봐서는 눈에 띄지 않는다.
+    """
+    by_name = {r["ko"]: r["id"] for r in roles.values()}
+
+    def resolve(label):
+        label = label.strip()
+        if label in by_name:
+            return by_name[label]
+        for match in (
+            [n for n in by_name if n.startswith(label) or label.startswith(n)],
+            [n for n in by_name if label in n or n in label],
+        ):
+            if len(match) == 1:
+                return by_name[match[0]]
+        return None
+
+    problems = []
+    for rel in INLINE_ID_TARGETS:
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            for m in INLINE_ID_PATTERN.finditer(line):
+                label, wrote = m.group(1).strip(), int(m.group(2))
+                right = resolve(label)
+                if right is not None and right != wrote:
+                    problems.append(
+                        "%s:%d 에 '%s(%d)' 라고 적혀 있지만 카탈로그에서는 %d 입니다."
+                        % (rel, lineno, label, wrote, right)
+                    )
+    return problems
+
+
 def main():
     check = "--check" in sys.argv
     roles, sections = load_roles()
@@ -191,6 +239,8 @@ def main():
             for pid in add:
                 if pid not in roles:
                     problems.append("토글 '%s' 가 없는 id %s 를 부릅니다." % (name, pid))
+
+    problems += check_inline_ids(roles)
 
     stale = []
     for path, content in targets:
