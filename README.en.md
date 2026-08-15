@@ -261,7 +261,7 @@ Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`.
 Reorganized into 10 divisions, the way a company is. Added design, marketing, legal, audit and HR roles, and design roles now produce real images.
 
 **v1.0.0 (2026-06-28)**
-First public release of the Agent Team Builder, with 50 members, team recipes and the 9.5 review gate.
+Designed the 50-member structure and shipped the first release.
 
 ## License
 
