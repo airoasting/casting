@@ -1,4 +1,4 @@
-# Casting · Agent Team Builder (Execution Engine)
+# Casting · Agent Team Builder
 
 [한국어](./README.md) · **English**
 
@@ -7,31 +7,40 @@
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Verified-d2691e)
 ![Mode](https://img.shields.io/badge/Mode-Agent%20Teams-2ea44f)
-![Native](https://img.shields.io/badge/Native-Claude%20Code-8957e6)
 ![Also on](https://img.shields.io/badge/Also%20on-ChatGPT-555555)
 [![Live](https://img.shields.io/badge/Live-50agents.airoasting.com-FF6FB5)](https://50agents.airoasting.com)
 
 [![Agent Team Builder preview](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
 
 > Say what you want in one line and it picks a team from the 50 members. It then **actually runs that team** and hands back work that passed review. It is a Claude Code skill.
->
-> **v1.1.1 (2026-08-15)** · Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`. Added the generated-image disclosure and third-party credits (`NOTICE`).
->
-> **v1.1.0 (2026-07-12)** · Reorganized into 10 divisions, the way a company is. Added design, marketing, legal, audit and HR roles, and design roles now produce real images.
 
 **Live demo**: [50agents.airoasting.com](https://50agents.airoasting.com). Browse the 50-member catalog and the team builder right in the browser.
 
-It holds 50 role prompts and 28 team recipes that AI ROASTING checked with its five-color scoring. You only say what you want made. The team lead decides who does it and in what order, then carries it to the end.
+## Why it exists
 
-**It works best in Claude Code.** Each member runs as its own agent and the reviewer comes up separately. That is where the 9.5 gate bites hardest. [You can also use it in ChatGPT](#using-it-in-chatgpt-compatibility-mode). There, one model takes the roles in turn.
+Even one report passes through several hands. One person gathers the material, another reads the numbers, another writes it up, another finds what is wrong. Hand that work to AI and one model usually does all of it alone. It reviews its own writing, so the wrong parts stay in.
 
-## What it does
+Casting splits the work. Each member is a different agent, and the reviewer is someone who did not produce the deliverable. You only say what you want made. The team lead decides who does it and in what order, then carries it to the end.
 
-Goal in → ① read the goal → ② design the team → ③ show the team → ④ execute → ⑤ review (9.5 gate) → final result.
+It holds 50 role prompts and 28 team recipes that AI ROASTING checked with its five-color scoring.
+
+## How it runs
+
+| Step | What happens |
+|---|---|
+| ① Read the goal | What gets made, who it is for, whether the material exists. If it does not, it asks first. |
+| ② Design the team | It picks a recipe or builds a fresh combination. The same input gives the same team. |
+| ③ Show the team | You see who does what, in what order, before anything runs. |
+| ④ Execute | Each member comes up as its own agent. Steps that do not touch each other run at once. |
+| ⑤ Review | The reviewer looks for defects first. Below 9.5, the work goes back one step. |
+
+There are three layers.
 
 - **50 parts (Agents)**. Each is a system prompt for one role. All of them cleared the 9.5 pass line.
 - **28 recipes (Harnesses)**. Each is a team with the parts already chained. Research reports, market analysis, financial review, decks, strategy, meeting wrap-ups, and more.
 - **The router**. It takes the goal, picks a recipe, or builds a fresh combination of parts. This is the heart of the skill.
+
+**It works best in Claude Code.** Each member runs as its own agent and the reviewer comes up separately. That is where the 9.5 gate bites hardest. You can also use it in ChatGPT, where one model takes the roles in turn.
 
 ## The 50 team members (parts catalog)
 
@@ -154,6 +163,8 @@ For one project only, copy to `<your-project>/.claude/skills/casting` instead. R
 
 "Put a team on this" works too, and so does asking for a report, an analysis, a deck, a proposal, a financial review or a meeting wrap-up. You do not need to know who is required.
 
+It is not for one-line edits, simple lookups or arithmetic. Use it when the work needs several hands.
+
 ## Execution modes (tiered)
 
 Pick the highest mode the available tools allow.
@@ -166,7 +177,11 @@ What matters is that each member holds **its own context**. So the reviewer neve
 
 ## Quality gate
 
-The reviewer is a **separate agent that did not write the deliverable**. It goes back to the user's original goal and source material and looks for defects first. One defect is enough to withhold 9.5, and the work goes back a step. After one round of rework it gets read again. In real testing the gate failed the first output at 6.5 and sent it back.
+The reviewer is a **separate agent that did not write the deliverable**. It goes back to the user's original goal and source material and looks for defects first. One defect is enough to withhold 9.5, and the work goes back a step. After one round of rework it gets read again.
+
+Scoring runs on five axes: accuracy and evidence, purpose and completeness, structure and format, actionability, language and tone. If any single axis falls below 9.0, the work fails no matter what the average says. A gap left by missing material is never papered over as a finished piece; it comes back with a note on what is still needed.
+
+In real testing the gate failed the first output at 6.5 and sent it back.
 
 ## Execution artifacts (workspace)
 
@@ -210,7 +225,7 @@ Some members carry tools AI ROASTING built, one per role.
 | [Skill library](https://airoasting-skill.vercel.app/) | Curated practical AI skills | Automation architect, process design |
 | [`dart` skill (`/dart`)](https://github.com/airoasting/dart) | Pulls Korean DART filings into an interactive analyst HTML report (13 investor personas) | Financial analyst, IR, accountant, feasibility |
 
-## Layout
+## Repository layout
 
 Skill files sit at the repository root, and the demo site sits in `docs/`. That folder is served both by GitHub Pages and at the live domain [50agents.airoasting.com](https://50agents.airoasting.com).
 
@@ -232,7 +247,7 @@ platforms/
 └── chatgpt/
     ├── INSTRUCTIONS.md    # Custom GPT instructions body
     └── SETUP.md           # ChatGPT setup guide
-docs/                      # GitHub Pages demo site · source of truth for data
+docs/                      # demo site · source of truth for data
 ├── index.html            # team builder · 50-member catalog · A array (role source of truth)
 └── assets/               # prompts.js (prompt source) · router.js (recipe source) · agents · logos
 ```
@@ -260,6 +275,14 @@ python3 scripts/sync_refs.py --check
 ```
 
 The card images at `docs/assets/agents/agent-N.png` are tied to the role number. If you change a number, move the image with it.
+
+## Changelog
+
+**v1.1.1 (2026-08-15)**
+Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`. Added the generated-image disclosure, third-party credits (`NOTICE`), and this English README.
+
+**v1.1.0 (2026-07-12)**
+Reorganized into 10 divisions, the way a company is. Added design, marketing, legal, audit and HR roles, and design roles now produce real images.
 
 ## License
 
