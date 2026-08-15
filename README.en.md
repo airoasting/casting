@@ -18,7 +18,7 @@ Say what you want in one line and it picks a team from the 50 members. It then *
 
 ## Why it exists
 
-Even one report passes through several hands. One person gathers the material, another reads the numbers, another writes it up, another finds what is wrong. Hand that work to AI and one model usually does all of it alone. It reviews its own writing, so the wrong parts stay in.
+Even one report passes through several hands. One person gathers the material, another reads the numbers, another writes it up, another finds what is wrong. Hand that work to AI and one model usually does all of it alone. A model grading its own writing goes easy on itself.
 
 Casting splits the work. Each member is a different agent, and the reviewer is someone who did not produce the deliverable. You only say what you want made. The team lead decides who does it and in what order, then carries it to the end.
 
