@@ -209,7 +209,7 @@ Start a new session and Codex reads the description in SKILL.md, then loads the 
 
 ## Equipped tools
 
-Some members carry tools AI ROASTING built, one per role.
+Some members can draw on tools AI ROASTING built, matched to their role.
 
 | Tool | Purpose | Members who get it |
 |---|---|---|

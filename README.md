@@ -209,7 +209,7 @@ cp -r casting/{SKILL.md,README.md,LICENSE,NOTICE,references,platforms,scripts} ~
 
 ## 장착 도구
 
-일부 팀원은 AI ROASTING이 만든 도구를 역할에 맞게 하나씩 들고 있습니다.
+일부 팀원은 AI ROASTING이 만든 도구를 역할에 맞게 활용 가능합니다.
 
 | 도구 | 용도 | 받는 팀원 |
 |---|---|---|
