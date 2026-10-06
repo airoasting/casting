@@ -213,12 +213,12 @@ Some members can draw on tools AI ROASTING built, matched to their role.
 
 | Tool | Purpose | Members who get it |
 |---|---|---|
-| [Strategy tool gallery](https://airoasting-strategy.vercel.app/) | 70 consulting frameworks | Management strategist, new business, feasibility |
+| [Strategy tool gallery](https://strategy.airoasting.com/) | 70 consulting frameworks | Management strategist, new business, feasibility |
 | [5color](https://5color.airoasting.com) | Generates five-persona review guidance | Document & quality review, devil's advocate, copy editor |
-| [Slide library](https://airoasting-slide.vercel.app/) | 35 HTML slide templates | Slide design, proposals |
-| [AI ROASTING blog](https://airoasting-blog.vercel.app/) | Global research insight | Research, trends, market |
+| [Slide library](https://slide.airoasting.com/) | 35 HTML slide templates | Slide design, proposals |
+| [AI ROASTING blog](https://blog.airoasting.com/) | Global research insight | Research, trends, market |
 | [Hound](https://github.com/airoasting/hound) | Relentless multi-channel search across 16 channels | Research, fact-check, market, competitor analysis, source verification |
-| [Skill library](https://airoasting-skill.vercel.app/) | Curated practical AI skills | Automation architect, process design |
+| [Skill library](https://skill.airoasting.com/) | Curated practical AI skills | Automation architect, process design |
 | [FSS filings search skill (`/dart`)](https://github.com/airoasting/dart) | Pulls Korean DART filings into an interactive analyst HTML report (13 investor personas) | Financial analyst, IR, accountant, feasibility |
 
 ## Repository layout
