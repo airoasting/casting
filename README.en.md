@@ -2,7 +2,7 @@
 
 [한국어](./README.md) · **English**
 
-![Version](https://img.shields.io/badge/Version-1.2-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.3-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
@@ -12,7 +12,7 @@
 
 [![Agent Team Builder preview](docs/assets/thumbnail/preview.png)](https://50agents.airoasting.com)
 
-Tell it what you want and the orchestrating team lead picks the agents it needs from the 50, assembles a team, then **actually runs that team** and produces work that passed review.
+Tell it what you want and the orchestrating team lead picks the agents it needs from the 50, assembles a team, then **actually runs that team** and produces work that carries an independent reviewer's verdict.
 
 **Live demo**: [50agents.airoasting.com](https://50agents.airoasting.com). Browse the 50-member catalog and the team builder right in the browser.
 
@@ -32,7 +32,7 @@ Inside are 50 role prompts and 28 prebuilt teams.
 | ② Design the team | It picks a prebuilt team or assembles fresh members. The same input gives the same team. |
 | ③ Show the team | You see who does what, in what order, before anything runs. |
 | ④ Execute | Each member comes up as its own agent. Steps that do not touch each other run at once. |
-| ⑤ Review | The reviewer looks for defects first. Below 9.5, the work goes back one step. |
+| ⑤ Review | The reviewer looks for defects first. Below 9.5, the work goes back one step once. If it still falls short, it ships marked "below bar" with the remaining defects listed. |
 
 There are three layers.
 
@@ -159,7 +159,9 @@ For one project only, copy to `<your-project>/.claude/skills/casting` instead. R
 
 "Put a team on this" works too, and so does asking for a report, an analysis, a deck, a proposal, a financial review or a meeting wrap-up. You do not need to know who is required.
 
-It is not for one-line edits, simple lookups or arithmetic. Use it when the work needs several hands.
+It is not for one-line edits, simple lookups or arithmetic, nor for one-shot pieces like a single email or notice. Use it when the work needs several hands.
+
+**It takes time.** Members actually research, write and go through independent review, so a run takes ten times longer or more than asking for a quick draft. Measured runs: a two-member team takes about 10 minutes, three or four members with research 30 to 40 minutes, and a large report with five or more members about an hour. It uses 2.5 to 4 times the tokens of a single-pass draft. It tells you the expected time before it starts and reports one line as each step finishes. It fits documents where an invented fact would be costly (board reports, company-wide notices, external proposals) better than work where speed comes first.
 
 ## Execution modes
 
@@ -175,7 +177,16 @@ What matters is that each member holds **its own context**. So the reviewer neve
 
 The reviewer is a **separate agent that did not write the deliverable**. It goes back to the user's original goal and source material and looks for defects first. One defect is enough to withhold 9.5, and the work goes back a step. After one round of rework it gets read again.
 
-Scoring runs on five axes: accuracy and evidence, purpose and completeness, structure and format, actionability, language and tone. If any single axis falls below 9.0, the work fails no matter what the average says. A gap left by missing material is never papered over as a finished piece; it comes back with a note on what is still needed.
+Scoring runs on five axes: accuracy and evidence, purpose and completeness, structure and format, actionability, language and tone. To pass, the work needs zero defects, an average of 9.5 or higher, and every axis at 9.0 or higher.
+
+The verdict ships with the work. Work that fell short is never labeled as passed.
+
+| Verdict | Meaning |
+|---|---|
+| Passed review | The independent reviewer passed it. |
+| Below bar · wording touched up | Still short after one rework round, and the only remaining defects were wording or formatting, which the lead fixed. Not re-reviewed. |
+| Below bar · defects disclosed | Content defects remained after one rework round. They are listed above the work. |
+| Incomplete | Material was missing, so key parts could not be filled. It comes back with what is needed to finish. |
 
 ## Execution artifacts (workspace)
 
@@ -247,7 +258,18 @@ docs/                      # demo site · source of truth for data
 └── assets/               # prompts.js (prompt source) · router.js (team source) · agents · logos
 ```
 
+## Site editing rules
+
+Follow these when editing the demo site (`docs/`).
+
+- **Design system** (neo-brutalism): only five colors, `--pink:#FF6FB5 / --blue:#C0F7FE / --green:#99E885 / --yellow:#F7CB46 / --cream:#FFDC8B`, plus black, white and off-white. Signature tokens: border `4px solid #000`, shadow `8px 8px 0 #000` (blur 0), radius 0. Fonts: Pretendard (body) and Space Grotesk (mono labels). No new hex values or gradients; only black text on fills.
+- **Member images are fictional people generated with ChatGPT** (`docs/assets/agents/agent-N.png`, transparent background). Do not present them as real photos, and keep the same disclosure when adding images. Card images are tied to member numbers, so move the images when numbers change.
+- **Third-party asset credits** go in `NOTICE` (fonts, icons, logos). Add a line there when adding a new third-party asset.
+
 ## Changelog
+
+**v1.3 (2026-10-06)**
+Fixed defects found in a five-color evaluation that included one live run. Removed the path that labeled sub-9.5 work as passed, and split verdicts into passed, below bar and incomplete. The pass rules now live in one place, the reviewer template, and a fresh reviewer handles the second review. Members run in the foreground and hand off through files. The final result now comes first and the work log moves to the end. Fixed four teams that put the devil's advocate in the review seat, and the checker now validates division number ranges and team rules.
 
 **v1.2 (2026-08-15)**
 Role numbers now live in one place. `scripts/sync_refs.py` builds `references/`. Added the generated-image disclosure and third-party credits (`NOTICE`).

@@ -212,6 +212,60 @@ def check_inline_ids(roles):
     return problems
 
 
+SECTION_RANGE_PATTERN = re.compile(r"([가-힣A-Za-z·]{2,16})\((\d{1,2})~(\d{1,2})\)")
+
+
+def check_section_ranges(roles, sections):
+    """본문에 적은 '본부(a~b)' 범위가 카탈로그의 실제 번호 구간과 맞는지 본다.
+
+    '직책(id)' 검사는 범위 표기를 읽지 못해서, 본부 번호가 바뀐 뒤에도 옛 범위가 남는다.
+    """
+    ranges = {}
+    for idx, name in enumerate(sections):
+        ids = sorted(r["id"] for r in roles.values() if r["sec"] == idx)
+        if ids:
+            ranges[name] = (ids[0], ids[-1])
+
+    problems = []
+    for rel in INLINE_ID_TARGETS:
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            for m in SECTION_RANGE_PATTERN.finditer(line):
+                label, lo, hi = m.group(1), int(m.group(2)), int(m.group(3))
+                names = [n for n in ranges if n == label or n.startswith(label) or label.startswith(n)]
+                if len(names) == 1 and ranges[names[0]] != (lo, hi):
+                    right = ranges[names[0]]
+                    problems.append(
+                        "%s:%d 에 '%s(%d~%d)' 라고 적혀 있지만 카탈로그에서는 %d~%d 입니다."
+                        % (rel, lineno, label, lo, hi, right[0], right[1])
+                    )
+    return problems
+
+
+REBUTTAL_ID = 47
+
+
+def check_harness_rules(harness):
+    """팀 구성이 SKILL.md의 규칙을 어기는지 본다.
+
+    - 비판적 검토자(47)는 게이트 자리에 두지 않는다(반박은 실행 단계에서, 반박 검토 토글로).
+    - 분석 강화(deepAdd)는 이미 단계에 있는 역할을 다시 넣지 않고, 47을 넣지 않는다.
+    """
+    problems = []
+    for h in harness["HARNESS"]:
+        steps = [s["p"] for s in h["steps"]]
+        if h["review"]["p"] == REBUTTAL_ID:
+            problems.append("팀 구성 '%s' 가 비판적 검토자(47)를 게이트 자리에 둡니다." % h["name"])
+        deep = h.get("deepAdd")
+        if deep in steps:
+            problems.append("팀 구성 '%s' 의 분석 강화(%s)가 이미 단계에 있는 역할입니다." % (h["name"], deep))
+        if deep == REBUTTAL_ID:
+            problems.append("팀 구성 '%s' 의 분석 강화가 비판적 검토자(47)입니다. 반박은 반박 검토 토글로 켭니다." % h["name"])
+    return problems
+
+
 def main():
     check = "--check" in sys.argv
     roles, sections = load_roles()
@@ -241,6 +295,8 @@ def main():
                     problems.append("토글 '%s' 가 없는 id %s 를 부릅니다." % (name, pid))
 
     problems += check_inline_ids(roles)
+    problems += check_section_ranges(roles, sections)
+    problems += check_harness_rules(harness)
 
     stale = []
     for path, content in targets:
