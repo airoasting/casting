@@ -2,7 +2,7 @@
 
 [한국어](./README.md) · **English**
 
-![Version](https://img.shields.io/badge/Version-1.4-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.5-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
@@ -175,7 +175,7 @@ What matters is that each member holds **its own context**. So the reviewer neve
 
 ## Quality gate
 
-The reviewer is a **separate agent that did not write the deliverable**. It goes back to the user's original goal and source material and looks for defects first. One defect is enough to withhold 9.5, and the work goes back a step. After one round of rework it gets read again.
+The reviewer is a **separate agent that did not write the deliverable**. It goes back to the user's original goal and source material and looks for defects first. The first review is split between two reviewers: one checks facts and evidence, the other checks spec compliance and consistency across documents. This cuts down on defects that surface only in the second review, when there is no rework round left. One defect is enough to withhold 9.5, and the work goes back a step. After one round of rework it gets read again.
 
 Scoring runs on five axes: accuracy and evidence, purpose and completeness, structure and format, actionability, language and tone. To pass, the work needs zero defects, an average of 9.5 or higher, and every axis at 9.0 or higher.
 
@@ -268,6 +268,9 @@ Follow these when editing the demo site (`docs/`).
 - **Third-party asset credits** go in `NOTICE` (fonts, icons, logos). Add a line there when adding a new third-party asset.
 
 ## Changelog
+
+**v1.5 (2026-10-06)**
+The first review now runs as two parallel reviewers, one for facts and evidence and one for structure and consistency. The lead merges their results mechanically. The second review is a single fresh reviewer covering everything. Each run makes one more agent call.
 
 **v1.4 (2026-10-06)**
 The pass criteria are set before writing. The lead writes a spec for each deliverable (length cap, required elements, items that must match across deliverables), and the writers and the reviewer get the same spec. Defaults by deliverable type live in `references/deliverable-specs.md`. The reviewer logs requests outside the spec as suggestions rather than defects, and never builds a defect on outside knowledge it has not checked. Rework touches only what was flagged.
