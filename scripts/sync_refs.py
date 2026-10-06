@@ -168,6 +168,7 @@ INLINE_ID_TARGETS = [
     "SKILL.md",
     "references/harnesses.md",
     "references/execution-modes.md",
+    "references/deliverable-specs.md",
     "platforms/codex/SETUP.md",
     "README.md",
 ]
