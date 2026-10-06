@@ -2,7 +2,7 @@
 
 **한국어** · [English](./README.en.md)
 
-![Version](https://img.shields.io/badge/Version-1.5-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.6-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
@@ -268,6 +268,9 @@ docs/                      # 데모 웹사이트 · 데이터 정본
 - **외부 에셋 출처**는 `NOTICE`에 적습니다(폰트·아이콘·로고). 서드파티 에셋을 새로 넣으면 여기에도 한 줄 추가합니다.
 
 ## 변경 이력
+
+**v1.6 (2026-10-07)**
+SKILL.md를 34KB에서 18KB로 줄였습니다. 효과가 확인된 규칙(산출물 명세, 판정 갈래, 포그라운드 실행, 1차 분할 검토, 참조 관계면 순차)은 남기고, 보강 절차·검토 세부·분량 계산은 정본인 `references/execution-modes.md`와 `references/deliverable-specs.md`로 넘겼습니다. 규칙은 지우지 않고 한곳에만 둡니다.
 
 **v1.5 (2026-10-06)**
 1차 검토를 사실·근거 검토자와 구조·정합 검토자 두 명이 병렬로 나눠 봅니다. 팀장은 두 결과를 기계적으로 합칩니다. 2차는 새 검토자 한 명이 전체를 봅니다. 실행마다 에이전트 호출이 한 번 늘어납니다.

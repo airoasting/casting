@@ -2,7 +2,7 @@
 
 [한국어](./README.md) · **English**
 
-![Version](https://img.shields.io/badge/Version-1.5-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.6-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
@@ -268,6 +268,9 @@ Follow these when editing the demo site (`docs/`).
 - **Third-party asset credits** go in `NOTICE` (fonts, icons, logos). Add a line there when adding a new third-party asset.
 
 ## Changelog
+
+**v1.6 (2026-10-07)**
+Cut SKILL.md from 34KB to 18KB. Rules with measured effect stay (deliverable specs, verdict branches, foreground runs, split first review, sequential runs for linked deliverables). Rework steps, review details and length math now live only in their source files, `references/execution-modes.md` and `references/deliverable-specs.md`. No rule was dropped; each lives in one place.
 
 **v1.5 (2026-10-06)**
 The first review now runs as two parallel reviewers, one for facts and evidence and one for structure and consistency. The lead merges their results mechanically. The second review is a single fresh reviewer covering everything. Each run makes one more agent call.
