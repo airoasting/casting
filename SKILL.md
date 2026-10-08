@@ -19,9 +19,9 @@ description: 한 사람이 한 번에 끝내는 일이 아니라, 여러 전문�
 | `references/harnesses.md` | ② 팀 설계 | 팀 구성 28종, 토글, 라우터 결정 사다리, 새 조합 기본 역할, 게이트 검토자 선택 |
 | `references/catalog.md` | ② 새 조합 | 50명 팀원 표(회사형 10개 본부) |
 | `references/deliverable-specs.md` | ② 끝, 명세 쓸 때 | 결과물 종류별 분량 상한·필수 요소, 공통 품질 조건, 명세 형식 |
-| `references/agent-prompts.md` | ③④ | 50명 + 팀장의 시스템 프롬프트(약 250KB). **선발된 id 구간만** 뽑는다: `sed -n '/^## \[N\]/,/^---$/{/^---$/!p;}'`. 팀장 지침은 이 SKILL.md이므로 `[lead]` 구간은 읽지 않는다 |
+| `references/agent-prompts.md` | ③④ | 50명 + 팀장의 시스템 프롬프트(약 520KB). 모두 6칸(Role·Rubric·Workflow·Tools·Context·Guardrail)이다. **선발된 id 구간만** 뽑는다: `sed -n '/^## \[N\]/,/^---$/{/^---$/!p;}'`. 팀장 지침은 이 SKILL.md이므로 `[lead]` 구간은 읽지 않는다 |
 | `references/execution-modes.md` | ④⑤ | 도구 호출 문법, 팀원·검토자 템플릿(**판정 규칙의 정본**), 1차 분할 검토 합치기, 보강 절차 |
-| `scripts/gen_image.py` | 디자인 역할 | 실제 이미지 생성. `OPENAI_API_KEY`가 없으면 완성 프롬프트만 내고 미생성임을 밝힌다 |
+| `scripts/gen_image.py` | 디자인 역할 | 실제 이미지 생성. 디자인 역할(19~23)에게 이 파일의 절대경로를 팀원 템플릿의 "이미지 스크립트" 줄로 준다. `OPENAI_API_KEY`가 없으면 완성 프롬프트만 내고 미생성임을 밝힌다 |
 | `scripts/sync_refs.py` | 저장소 관리 | `references/`의 생성본을 사이트 정본에서 다시 만든다(`--check`는 검사만) |
 
 ## 흐름
@@ -154,4 +154,4 @@ description: 한 사람이 한 번에 끝내는 일이 아니라, 여러 전문�
 
 ## 부록 · 데이터 정본
 
-50역할은 `docs/index.html`의 `A` 배열과 `docs/assets/prompts.js`, 팀 구성은 `docs/assets/router.js`가 정본이다. `references/`의 catalog·agent-prompts·harnesses 목록은 `scripts/sync_refs.py`가 생성하므로 `docs/assets`만 고치고 스크립트를 돌린다. 팀원 번호: 전략기획실(1~5) · 리서치랩(6~11) · 마케팅본부(12~18) · 디자인본부(19~23) · 콘텐츠제작본부(24~29) · 커뮤니케이션·PR본부(30~34) · 재무본부(35~40) · 인사본부(41~43) · 법무·감사실(44~47) · 운영자동화본부(48~50). 사이트 편집 규칙은 README "사이트 편집 규칙".
+50역할은 `docs/index.html`의 `A` 배열과 `docs/assets/prompts.js`, 팀 구성은 `docs/assets/router.js`가 정본이다. `references/`의 catalog·agent-prompts·harnesses 목록은 `scripts/sync_refs.py`가 생성하므로 `docs/assets`만 고치고 스크립트를 돌린다. 팀원 번호: 전략기획실(1~5) · 리서치랩(6~11) · 마케팅본부(12~18) · 디자인본부(19~23) · 콘텐츠제작본부(24~29) · 커뮤니케이션·PR본부(30~34) · 재무본부(35~40) · 인사본부(41~43) · 법무·감사실(44~47) · 운영자동화본부(48~50). 역할 프롬프트를 고치거나 새로 넣을 때는 `references/role-template.md`의 6칸 틀을 따르고 `sync_refs.py --check`로 확인한다. 사이트 편집 규칙은 README "사이트 편집 규칙".

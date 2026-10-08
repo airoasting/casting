@@ -2,7 +2,7 @@
 
 [한국어](./README.md) · **English**
 
-![Version](https://img.shields.io/badge/Version-1.6-2ea44f)
+![Version](https://img.shields.io/badge/Version-1.7-2ea44f)
 ![License](https://img.shields.io/badge/License-Apache%202.0-1f6feb)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-8957e6)
 ![Agents](https://img.shields.io/badge/Agents-50%20Roles-d2691e)
@@ -36,7 +36,7 @@ Inside are 50 role prompts and 28 prebuilt teams.
 
 There are three layers.
 
-- **50 agent members**. Each is a system prompt for one role.
+- **50 agent members**. Each is a system prompt for one role, and every one follows the same six sections (Role · Rubric · Workflow · Tools · Context · Guardrail).
 - **28 prebuilt teams**. Each has its members already chained. Research reports, market analysis, financial review, decks, strategy, meeting wrap-ups, and more.
 - **The router**. It takes the goal, picks a prebuilt team, or assembles a fresh set of members. This is the heart of the skill.
 
@@ -45,6 +45,19 @@ There are three layers.
 ## The 50 agent members
 
 Teams are drawn from the 50 roles below. They are split into **10 divisions**, the way a company is, and the numbers follow the division order.
+
+Every member's system prompt uses the same six sections.
+
+| Section | What it holds |
+|---|---|
+| **Role** | Identity, what it does and does not do (naming neighboring roles by number), when it is done, its judgment rule |
+| **Rubric** | Output format, a check question for every output item, 8 / 9 / 9.5 / 10 point anchors, an example |
+| **Workflow** | Steps that build the output, a self-check step, who it hands off to |
+| **Tools** | Tools it can actually use and what for, and what to do without them |
+| **Context** | What it receives, required inputs, defaults when inputs are missing, the reader. It asks in a chat with a person and proceeds on defaults inside a team |
+| **Guardrail** | Only the role's real risks. Unknown values are [확인 필요], inferences 추정, premises 가정, open decisions 미정, values the team set (제안) |
+
+The same prompt works copied from the site for solo use or launched as a member inside casting. The standard and its 10-point criteria live in `references/role-template.md`.
 
 ### 1. Strategy Office
 | # | Role | Korean | What they do |
@@ -161,7 +174,7 @@ For one project only, copy to `<your-project>/.claude/skills/casting` instead. R
 
 It is not for one-line edits, simple lookups or arithmetic, nor for one-shot pieces like a single email or notice. Use it when the work needs several hands.
 
-**It takes time.** Members actually research, write and go through independent review, so a run takes ten times longer or more than asking for a quick draft. Measured runs: a two-member team takes about 10 minutes, three or four members with research 30 to 40 minutes, and a large report with five or more members about an hour. It uses 2.5 to 4 times the tokens of a single-pass draft. It tells you the expected time before it starts and reports one line as each step finishes. It fits documents where an invented fact would be costly (board reports, company-wide notices, external proposals) better than work where speed comes first.
+**It takes time.** Members actually research, write and go through independent review, so a run takes ten times longer or more than asking for a quick draft. Measured runs: a two-member team takes about 10 minutes, three members without research 10 to 15 minutes, three or four members with research 25 to 40 minutes, and a large report with five or more members about an hour. It uses 2.5 to 4 times the tokens of a single-pass draft. It tells you the expected time before it starts and reports one line as each step finishes. It fits documents where an invented fact would be costly (board reports, company-wide notices, external proposals) better than work where speed comes first.
 
 ## Execution modes
 
@@ -190,20 +203,22 @@ The verdict ships with the work. Work that fell short is never labeled as passed
 
 ## Execution artifacts (workspace)
 
-Run it in Claude Code and the team and its outputs stay on disk.
+Run a job with three or more members in Claude Code and the team and its outputs stay on disk under the current working folder.
 
 ```
 _workspace/
 └── 20260628_01/             # {YYYYMMDD}_NN, _02 and _03 for repeat runs the same day
-    ├── team.md              # build sheet: goal, team structure, order, toggles
-    ├── lead/                # team lead (orchestrator)
-    │   └── lead.md
-    ├── agents/              # staffed members (role prompt + this run's io)
+    ├── team.md              # goal, team structure, order, toggles
+    ├── spec.md              # deliverable specs (reader, length cap, required elements, items to match)
+    ├── input/               # the user's source material as given
+    ├── agents/              # members' role prompts (six sections, extracted as-is from agent-prompts.md)
     │   ├── 1-research-assistant.md
-    │   ├── 2-summarizer.md
-    │   └── review-copy-editor.md
+    │   ├── 2-report-writer.md
+    │   └── review-document-quality.md
     └── output/              # per-step outputs + final result
 ```
+
+If you run it inside your own repository, add `_workspace/` to `.gitignore`.
 
 The team does not disappear after one use. You can open it again later or reuse it as it is.
 
@@ -226,11 +241,11 @@ Some members can draw on tools AI ROASTING built, matched to their role.
 |---|---|---|
 | [Strategy tool gallery](https://strategy.airoasting.com/) | 70 consulting frameworks | Management strategist, new business, feasibility |
 | [5color](https://5color.airoasting.com) | Generates five-persona review guidance | Document & quality review, devil's advocate, copy editor |
-| [Slide library](https://slide.airoasting.com/) | 35 HTML slide templates | Slide design, proposals |
+| [Slide library](https://slide.airoasting.com/) | 35 HTML slide templates | Slide design |
 | [AI ROASTING blog](https://blog.airoasting.com/) | Global research insight | Research, trends, market |
 | [Hound](https://github.com/airoasting/hound) | Relentless multi-channel search across 16 channels | Research, fact-check, market, competitor analysis, source verification |
-| [Skill library](https://skill.airoasting.com/) | Curated practical AI skills | Automation architect, process design |
-| [FSS filings search skill (`/dart`)](https://github.com/airoasting/dart) | Pulls Korean DART filings into an interactive analyst HTML report (13 investor personas) | Financial analyst, IR, accountant, feasibility |
+| [Skill library](https://skill.airoasting.com/) | Curated practical AI skills | Automation architect |
+| [FSS filings search skill (`/dart`)](https://github.com/airoasting/dart) | Pulls Korean DART filings into an interactive analyst HTML report (13 investor personas) | Financial analyst, IR, accountant, feasibility, fact & source checking, market research, auditor |
 
 ## Repository layout
 
@@ -247,9 +262,10 @@ references/                # catalog, agent-prompts and the harness list are gen
 ├── harnesses.md           # 28 prebuilt teams + router decision ladder + toggles
 ├── agent-prompts.md       # full system prompts for all 50 (selected by id range)
 ├── execution-modes.md     # the three execution modes · real tool-call syntax · reviewer template
-└── deliverable-specs.md   # completion criteria by deliverable type (length cap, required elements) · spec format (hand-written)
+├── deliverable-specs.md   # completion criteria by deliverable type (length cap, required elements) · spec format (hand-written)
+└── role-template.md       # six-section standard for role prompts · 10-point criteria · the five markers (hand-written)
 scripts/
-├── sync_refs.py           # regenerates references/ from the site source of truth (--check to verify)
+├── sync_refs.py           # regenerates references/ from the site source of truth (--check to verify, including the six-section prompt check)
 └── gen_image.py           # real image output for the design roles
 platforms/
 └── codex/
@@ -268,6 +284,9 @@ Follow these when editing the demo site (`docs/`).
 - **Third-party asset credits** go in `NOTICE` (fonts, icons, logos). Add a line there when adding a new third-party asset.
 
 ## Changelog
+
+**v1.7 (2026-10-08)**
+Rewrote every system prompt for the 50 members and the lead into the same six sections: Role · Rubric · Workflow · Tools · Context · Guardrail. The new Context section separates two run modes. In a chat with a person, the role asks; inside a team, it does not ask and proceeds on stated defaults. Before this, 33 roles told themselves to ask the user even inside a team. Markers are down to five: [확인 필요], 추정, 가정, 미정 and (제안). The guardrail section now holds only real risks, with no writing advice. Each role's inputs and hand-offs now match the steps before and after it in the prebuilt teams. `scripts/sync_refs.py --check` now checks the six-section structure, question-to-output coverage, markers and team links. The standard lives in `references/role-template.md`. The prompts went through three rounds of independent review, each by three fresh reviewers splitting the range. The six-section average rose from about 8.6 to 9.4, and 11 of 51 roles cleared the 9.5 bar. All major defects are fixed; the list of minor ones is kept for the next rework round. The README workspace layout and time estimates now match SKILL.md.
 
 **v1.6 (2026-10-07)**
 Cut SKILL.md from 34KB to 18KB. Rules with measured effect stay (deliverable specs, verdict branches, foreground runs, split first review, sequential runs for linked deliverables). Rework steps, review details and length math now live only in their source files, `references/execution-modes.md` and `references/deliverable-specs.md`. No rule was dropped; each lives in one place.

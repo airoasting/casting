@@ -6,10 +6,10 @@
 키가 없으면 완성된 프롬프트만 산출물로 제시하고 그 사실을 밝힌다(정직한 폴백).
 
 사용:
-  OPENAI_API_KEY=... python scripts/gen_image.py "<프롬프트>" out.png [--size 1024x1024] [--quality high]
+  OPENAI_API_KEY=... python3 scripts/gen_image.py "<프롬프트>" out.png [--size 1024x1024] [--quality high]
 
 산출물 유형별 권장 비율:
-  슬라이드 1536x1024 · 카드뉴스 1024x1024 · 인포그래픽 1024x1536 · 브랜드/썸네일 1024x1024
+  슬라이드 1536x1024(16:9는 위아래를 잘라 씀) · 카드뉴스 1024x1536(세로) 또는 1024x1024 · 인포그래픽 1024x1536 · 브랜드/썸네일 1024x1024
 의존: pip install openai (v1+). gpt-image-1은 b64_json으로 반환한다.
 """
 import os
@@ -30,7 +30,7 @@ def main():
     key = os.environ.get("OPENAI_API_KEY")
     if not key:
         sys.exit("OPENAI_API_KEY가 없습니다. 키를 설정하거나, 완성된 프롬프트를 "
-                 "산출물로 제시하고 '이미지 미생성(프롬프트만)'임을 밝히세요.")
+                 "산출물로 제시하고 '이미지 미생성, 프롬프트만 산출됨'을 밝히세요.")
     try:
         from openai import OpenAI
     except ImportError:
@@ -44,6 +44,7 @@ def main():
         quality=args.quality,
         n=1,
     )
+    os.makedirs(os.path.dirname(args.outfile) or ".", exist_ok=True)
     with open(args.outfile, "wb") as f:
         f.write(base64.b64decode(res.data[0].b64_json))
     print(f"saved {args.outfile}")

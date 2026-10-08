@@ -43,8 +43,9 @@ def run_js(source: str, expr: str):
         "const fn=new Function(src+';return %s;');"
         "process.stdout.write(JSON.stringify(fn()));" % (json.dumps(source), expr)
     )
+    # 스크립트는 표준입력으로 넘긴다. -e 인자로 넘기면 prompts.js가 커질 때 인자 길이 한도(ARG_MAX)를 넘는다.
     out = subprocess.run(
-        ["node", "-e", script], capture_output=True, text=True, check=True
+        ["node", "-"], input=script, capture_output=True, text=True, check=True
     )
     return json.loads(out.stdout)
 
@@ -245,6 +246,148 @@ def check_section_ranges(roles, sections):
     return problems
 
 
+PROMPT_SECTIONS = [
+    "## Role · 역할",
+    "## Rubric · 합격 기준",
+    "## Workflow · 작업 순서",
+    "## Tools · 도구",
+    "## Context · 맥락",
+    "## Guardrail · 금지선",
+]
+SECTION_FIELDS = {
+    "## Role · 역할": ["- 맡는 일:", "- 맡지 않는 일:", "- 끝의 기준:", "- 판단 기준:"],
+    "## Rubric · 합격 기준": ["문체:", "출력 형식", "점검 질문", "점수 기준", "예시 (형식 참고용입니다.", "자기평가:"],
+    "## Workflow · 작업 순서": ["넘기는 곳:"],
+    "## Tools · 도구": ["- 도구가 없을 때:"],
+    "## Context · 맥락": [
+        "- 받는 것:", "- 꼭 있어야 할 입력:", "- 빠졌을 때:", "- 독자와 쓰임:",
+        "- 사람과 대화할 때:", "- 팀 안에서",
+    ],
+    "## Guardrail · 금지선": ["- "],
+}
+# 예전에 쓰던 역할 이름. 핸드오프가 없는 역할을 가리키게 된다.
+STALE_ROLE_NAMES = [
+    "자동화 아키텍트", "업무·일정 오케스트레이션", "SOP·프로세스", "비즈니스 케이스",
+    "데이터·분석 담당", "문서 작성가", "커뮤니케이션·SNS 담당", "경리 담당",
+]
+# 표지는 [확인 필요]·추정·가정·미정·(제안) 다섯 가지만 쓴다. 아래는 같은 자리에 쓰이던 다른 표지다.
+BANNED_MARKERS = [
+    '"자료 없음"', '"검증 필요"', '"추측"', '"가정 기반"', '"확인 중"', '"추가 자료 필요"', "[자료 필요]",
+    "[고객 입력 필요]", '"사례 보강 필요"', '"추후 안내"', '"확인 필요"', "[사례 보강 필요]", "한 끗",
+]
+ROLE_REF_PATTERN = re.compile(r"\((\d{1,2})\)")
+QUESTION_PATTERN = re.compile(r"^\d+\. \(출력 ([\d, ]+)\) .+\?$")
+ANCHOR_LABELS = ["8점: ", "9점: ", "9.5점(합격선): ", "10점(대표작): "]
+
+
+def _numbered(block):
+    return [l for l in block.strip().split("\n") if re.match(r"^\d+\. ", l)]
+
+
+def harness_neighbors(harness):
+    """팀 구성에서 역할마다 바로 앞·뒤 단계 역할을 모은다(게이트 검토자는 빼고)."""
+    prev, nxt = {}, {}
+    for h in harness["HARNESS"]:
+        steps = [s["p"] for s in h["steps"]]
+        for i, p in enumerate(steps):
+            if i > 0:
+                prev.setdefault(p, set()).add(steps[i - 1])
+            if i + 1 < len(steps):
+                nxt.setdefault(p, set()).add(steps[i + 1])
+    return prev, nxt
+
+
+def check_prompt_structure(roles, prompts, harness=None):
+    """50역할과 팀장 프롬프트가 6칸(Role·Rubric·Workflow·Tools·Context·Guardrail) 틀을 지키는지 본다.
+
+    - 6칸 머리글이 이 순서로 하나씩만 있고, 다른 '## ' 머리글이 없다. 본문에 '---' 줄이 없다
+      (SKILL.md의 sed 구간 추출이 거기서 끊긴다).
+    - 칸마다 필수 항목이 있다. Tools 에는 '도구가 없을 때' 줄이 있다.
+    - 점검 질문은 4~7개이고, 모두 '(출력 N) …?' 꼴이며, 출력 형식의 모든 항목이 질문 하나 이상에 걸린다.
+    - 점수 기준은 8·9·9.5·10점 네 줄이고 합니다체로 끝난다.
+    - '직책(id)'로 부른 팀원은 그 번호의 실제 직책이다. 옛 역할 이름과 폐기한 표지를 쓰지 않는다.
+    - 팀 구성에서 바로 뒤 단계 역할은 '넘기는 곳'에, 바로 앞 단계 역할은 '받는 것'에 있다.
+    """
+    problems = []
+    prev, nxt = harness_neighbors(harness) if harness else ({}, {})
+    keys = [str(r) for r in sorted(roles)] + ["lead"]
+    for key in keys:
+        body = prompts.get(key)
+        if not body:
+            problems.append("프롬프트 %s 가 없습니다." % key)
+            continue
+        where = "프롬프트 [%s]" % key
+        if key != "lead":
+            r = roles[int(key)]
+            want = "# %s (%s)" % (r["ko"], r["en"])
+            if body.split("\n", 1)[0].strip() != want:
+                problems.append("%s 제목이 '%s' 가 아닙니다." % (where, want))
+        heads = [l for l in body.split("\n") if l.startswith("## ")]
+        if heads != PROMPT_SECTIONS:
+            problems.append("%s 의 칸 순서가 6칸 틀과 다릅니다: %s" % (where, " / ".join(heads)))
+            continue
+        if any(l.strip() == "---" for l in body.split("\n")):
+            problems.append("%s 에 '---' 줄이 있습니다." % where)
+        parts = re.split(r"(?m)^(## .+)$", body)
+        sections = dict(zip(parts[1::2], parts[2::2]))
+        for head, fields in SECTION_FIELDS.items():
+            text = sections.get(head, "")
+            for f in fields:
+                if f not in text:
+                    problems.append("%s 의 %s 에 '%s' 가 없습니다." % (where, head[3:], f.strip()))
+        rubric = sections.get("## Rubric · 합격 기준", "")
+        outs = _numbered(rubric.split("출력 형식", 1)[-1].split("점검 질문", 1)[0])
+        qs = _numbered(rubric.split("점검 질문", 1)[-1].split("점수 기준", 1)[0])
+        if not 4 <= len(qs) <= 7:
+            problems.append("%s 의 점검 질문이 %d개입니다(4~7개)." % (where, len(qs)))
+        covered = set()
+        for q in qs:
+            m = QUESTION_PATTERN.match(q)
+            if not m:
+                problems.append("%s 의 점검 질문이 '(출력 N) …?' 꼴이 아닙니다: %s" % (where, q[:40]))
+                continue
+            for n in re.findall(r"\d+", m.group(1)):
+                if not 1 <= int(n) <= len(outs):
+                    problems.append("%s 의 점검 질문이 없는 출력 %s 를 가리킵니다." % (where, n))
+                covered.add(int(n))
+        missing = [str(i) for i in range(1, len(outs) + 1) if i not in covered]
+        if missing:
+            problems.append("%s 의 출력 %s 에 걸린 점검 질문이 없습니다." % (where, ", ".join(missing)))
+        anchors = [l[2:] for l in rubric.split("점수 기준", 1)[-1].split("\n\n", 1)[0].strip().split("\n")]
+        if len(anchors) != 4 or any(not a.startswith(lab) for a, lab in zip(anchors, ANCHOR_LABELS)):
+            problems.append("%s 의 점수 기준이 8·9·9.5·10점 네 줄이 아닙니다." % where)
+        elif any(not a.rstrip().endswith("니다.") for a in anchors):
+            problems.append("%s 의 점수 기준이 합니다체로 끝나지 않습니다." % where)
+        guard = sections.get("## Guardrail · 금지선", "")
+        if len(re.findall(r"(?m)^- ", guard)) < 2:
+            problems.append("%s 의 금지선에 역할 고유 줄이 없습니다." % where)
+        for marker in BANNED_MARKERS:
+            if marker in body:
+                problems.append("%s 에 폐기한 표지 '%s' 가 있습니다." % (where, marker))
+        if "`python " in body or "python scripts/" in body:
+            problems.append("%s 이 python3 대신 python 을 부릅니다." % where)
+        for m in ROLE_REF_PATTERN.finditer(body):
+            rid = int(m.group(1))
+            if rid in roles and not body[: m.start()].endswith(roles[rid]["ko"]):
+                problems.append(
+                    "%s 에서 '(%d)' 앞의 이름이 '%s' 가 아닙니다: …%s(%d)"
+                    % (where, rid, roles[rid]["ko"], body[max(0, m.start() - 12): m.start()], rid)
+                )
+        for stale in STALE_ROLE_NAMES:
+            if stale in body:
+                problems.append("%s 에 옛 역할 이름 '%s' 가 남아 있습니다." % (where, stale))
+        if key != "lead":
+            handoff = next((l for l in sections["## Workflow · 작업 순서"].split("\n") if l.startswith("넘기는 곳:")), "")
+            recv = next((l for l in sections["## Context · 맥락"].split("\n") if l.startswith("- 받는 것:")), "")
+            for rid in sorted(nxt.get(int(key), ())):
+                if "%s(%d)" % (roles[rid]["ko"], rid) not in handoff:
+                    problems.append("%s 의 넘기는 곳에 팀 구성의 다음 단계 %s(%d) 가 없습니다." % (where, roles[rid]["ko"], rid))
+            for rid in sorted(prev.get(int(key), ())):
+                if "%s(%d)" % (roles[rid]["ko"], rid) not in recv:
+                    problems.append("%s 의 받는 것에 팀 구성의 앞 단계 %s(%d) 가 없습니다." % (where, roles[rid]["ko"], rid))
+    return problems
+
+
 REBUTTAL_ID = 47
 
 
@@ -298,6 +441,7 @@ def main():
     problems += check_inline_ids(roles)
     problems += check_section_ranges(roles, sections)
     problems += check_harness_rules(harness)
+    problems += check_prompt_structure(roles, prompts, harness)
 
     stale = []
     for path, content in targets:
