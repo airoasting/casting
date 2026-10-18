@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+  링크 미리보기(og:image) 원본. 1200x630.
+  고친 뒤 다시 굽기:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars \
+      --window-size=1200,630 --screenshot=docs/assets/thumbnail/og.png \
+      "http://localhost:4599/assets/thumbnail/og.html"
+  핵심 요소(헤드라인, 얼굴 줄)는 가운데 630px 폭 안에 무게를 두어, 정사각형으로 잘리는 카드에서도 읽히게 한다.
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>OG Thumbnail</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--hero:#ffdc8b;--ink:#0a0a0a;--paper:#fffdf5;--pink:#ff6fb5;--green:#99e885}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{background:var(--hero);color:var(--ink);font-family:Pretendard,sans-serif;-webkit-font-smoothing:antialiased;
+       display:flex;flex-direction:column}
+  .main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:0 40px}
+  .tag{background:var(--green);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);
+       font-weight:800;font-size:21px;padding:8px 18px;letter-spacing:-.01em}
+  h1{font-weight:900;font-size:74px;line-height:1.12;letter-spacing:-.05em;text-align:center}
+  h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--pink) 58%,var(--pink) 92%,transparent 92%)}
+  .faces{display:flex;gap:12px;margin-top:6px}
+  .face{width:82px;height:98px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);background:var(--paper);overflow:hidden}
+  .face img{width:100%;height:100%;object-fit:cover;display:block}
+  .face.more{display:grid;place-items:center;background:var(--pink);font-family:'Space Grotesk',Pretendard,sans-serif;
+       font-weight:700;font-size:25px;line-height:1;text-align:center}
+  .face.more small{display:block;font-family:Pretendard,sans-serif;font-size:14px;font-weight:800;margin-top:4px}
+  .bar{height:84px;border-top:5px solid var(--ink);background:var(--paper);display:flex;align-items:center;
+       justify-content:space-between;padding:0 48px}
+  .brand{display:flex;align-items:center;gap:14px;font-weight:900;font-size:27px;letter-spacing:-.02em}
+  .brand img{width:46px;height:46px}
+  .brand small{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:.2em}
+  .url{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:21px;letter-spacing:.02em}
+</style>
+</head>
+<body>
+  <div class="main">
+    <div class="tag">AI 에이전트를 고용하라</div>
+    <h1>목표를 설정하면,<br>자동으로 <em>에이전트 팀</em>이 꾸려집니다</h1>
+    <div class="faces">
+      <div class="face"><img src="../agents/agent-1.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-7.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-12.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-18.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-23.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-29.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-34.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-40.png" alt=""></div>
+      <div class="face"><img src="../agents/agent-46.png" alt=""></div>
+      <div class="face more"><div>50<small>팀원</small></div></div>
+    </div>
+  </div>
+  <div class="bar">
+    <div class="brand"><img src="../logos/favicon-256.png" alt="">에이전트 팀 빌더 <small>| AI ROASTING</small></div>
+    <div class="url">50agents.airoasting.com</div>
+  </div>
+</body>
+</html>
